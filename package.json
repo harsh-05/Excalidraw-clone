@@ -1,5 +1,5 @@
 {
-  "name": "Excalidraw-clone",
+  "name": "excalidraw-clone",
   "private": true,
   "scripts": {
     "build": "turbo run build",
