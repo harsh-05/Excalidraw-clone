@@ -20,15 +20,19 @@ importers:
 
   apps/http-backend:
     dependencies:
+      express:
+        specifier: ^4.21.2
+        version: 4.21.2
+    devDependencies:
+      '@repo/backend-common':
+        specifier: workspace:*
+        version: link:../../packages/backend-common
       '@repo/typescript-config':
         specifier: workspace:*
         version: link:../../packages/typescript-config
       '@types/express':
         specifier: ^5.0.0
         version: 5.0.0
-      express:
-        specifier: ^4.21.2
-        version: 4.21.2
 
   apps/web:
     dependencies:
@@ -69,15 +73,28 @@ importers:
 
   apps/ws-backend:
     dependencies:
+      ws:
+        specifier: ^8.18.1
+        version: 8.18.1
+    devDependencies:
+      '@repo/backend-common':
+        specifier: workspace:*
+        version: link:../../packages/backend-common
       '@repo/typescript-config':
         specifier: workspace:*
         version: link:../../packages/typescript-config
       '@types/ws':
         specifier: ^8.18.0
         version: 8.18.0
-      ws:
-        specifier: ^8.18.1
-        version: 8.18.1
+
+  packages/backend-common:
+    devDependencies:
+      '@repo/typescript-config':
+        specifier: workspace:*
+        version: link:../typescript-config
+      '@types/node':
+        specifier: ^22.13.9
+        version: 22.13.9
 
   packages/eslint-config:
     devDependencies:
