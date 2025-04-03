@@ -12,9 +12,12 @@
   "devDependencies": {
     "@repo/typescript-config": "workspace:*",
     "typescript": "5.8.2"
+    
   },
   "dependencies": {
     "@types/ws": "^8.18.1",
-    "ws": "^8.18.1"
+    "ws": "^8.18.1",
+    "@repo/utils":"workspace:*"
+   
   }
 }

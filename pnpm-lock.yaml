@@ -20,6 +20,9 @@ importers:
 
   apps/http-backend:
     dependencies:
+      '@repo/utils':
+        specifier: workspace:*
+        version: link:../../packages/utils
       '@types/express':
         specifier: ^5.0.1
         version: 5.0.1
@@ -73,6 +76,9 @@ importers:
 
   apps/webSocket-backend:
     dependencies:
+      '@repo/utils':
+        specifier: workspace:*
+        version: link:../../packages/utils
       '@types/ws':
         specifier: ^8.18.1
         version: 8.18.1
@@ -158,6 +164,12 @@ importers:
       typescript:
         specifier: 5.8.2
         version: 5.8.2
+
+  packages/utils:
+    devDependencies:
+      '@repo/typescript-config':
+        specifier: workspace:*
+        version: link:../typescript-config
 
 packages:
 
