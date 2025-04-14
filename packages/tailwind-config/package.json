@@ -1,0 +1,14 @@
+{
+  "name": "@repo/tailwind-config",
+  "description": "TailwindCSS sharable config file",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "exports": {
+    ".": "./tailwind.config.ts"
+  },
+  "devDependencies": {
+    "@repo/typescript-config": "workspace:*",
+    "tailwindcss": "^3.4.17"
+  }
+}
