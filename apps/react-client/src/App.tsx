@@ -12,9 +12,46 @@ function App() {
   
   // rendering will happen according to the size of the window.. I guess...
   useEffect(() => {
+    const canvas = canvasref.current;
     const ctx = canvasref.current?.getContext("2d");
-    console.log(dimensions.height, dimensions.width);
-  }, [dimensions])
+    if (!ctx) {
+      return
+    }
+
+    let mousedown = false;
+    let startX = 0;
+    let startY = 0;
+
+    const shapes:{type:string, x: number, y:number, width: number, height: number}[] = []
+
+    canvas?.addEventListener("mousedown", (e) => {
+      mousedown = true;
+      startX = e.clientX;
+      startY = e.clientY;
+    });
+
+    canvas?.addEventListener("mousemove", (e) => {
+      if (mousedown) {
+        let width = e.clientX - startX;
+        let height = e.clientY - startY;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        //Mapping all the rectangles here.
+        shapes.map((shape) => (ctx.strokeRect(shape.x, shape.y, shape.width, shape.height)));
+
+        ctx.strokeRect(startX, startY, width, height);
+      }
+    })
+
+    canvas?.addEventListener("mouseup", (e) => {
+      mousedown = false;
+       let width = e.clientX - startX;
+       let height = e.clientY - startY;
+      shapes.push({ type: "rect", x: startX, y: startY, width, height });
+    })
+  
+
+  }, [dimensions, canvasref])
 
   
   // Upon loading of the page then giving the size of the canvas accroding to the window's dimensions, added a event listener to make it responsive.
