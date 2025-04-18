@@ -26,32 +26,35 @@ function App() {
 
     canvas?.addEventListener("mousedown", (e) => {
       mousedown = true;
-      startX = e.clientX;
-      startY = e.clientY;
+      startX = e.offsetX;
+      startY = e.offsetY;
     });
 
     canvas?.addEventListener("mousemove", (e) => {
-      if (mousedown) {
-        let width = e.clientX - startX;
-        let height = e.clientY - startY;
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        //Mapping all the rectangles here.
-        shapes.map((shape) => (ctx.strokeRect(shape.x, shape.y, shape.width, shape.height)));
-
-        ctx.strokeRect(startX, startY, width, height);
+      if (!mousedown) {
+        return;
       }
+       let width = e.offsetX - startX;
+       let height = e.offsetY - startY;
+       ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+       //Mapping all the rectangles here.
+       shapes.map((shape) =>
+         ctx.strokeRect(shape.x, shape.y, shape.width, shape.height)
+       );
+
+       ctx.strokeRect(startX, startY, width, height);
     })
 
     canvas?.addEventListener("mouseup", (e) => {
       mousedown = false;
-       let width = e.clientX - startX;
-       let height = e.clientY - startY;
+       let width = e.offsetX - startX;
+       let height = e.offsetY - startY;
       shapes.push({ type: "rect", x: startX, y: startY, width, height });
     })
   
 
-  }, [dimensions, canvasref])
+  }, [dimensions])
 
   
   // Upon loading of the page then giving the size of the canvas accroding to the window's dimensions, added a event listener to make it responsive.
@@ -62,7 +65,7 @@ function App() {
     resize();
     window.addEventListener("resize", resize);
 
-    return () => window.addEventListener("resize", resize);
+    return () => window.removeEventListener("resize", resize);
   }, [])
 
 
