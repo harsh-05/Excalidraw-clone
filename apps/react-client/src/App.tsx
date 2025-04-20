@@ -13,7 +13,7 @@ function App() {
   // rendering will happen according to the size of the window.. I guess...
   useEffect(() => {
     const canvas = canvasref.current;
-    const ctx = canvasref.current?.getContext("2d");
+    const ctx = canvas?.getContext("2d");
     if (!ctx) {
       return
     }
@@ -39,11 +39,19 @@ function App() {
        ctx.clearRect(0, 0, canvas.width, canvas.height);
 
        //Mapping all the rectangles here.
-       shapes.map((shape) =>
-         ctx.strokeRect(shape.x, shape.y, shape.width, shape.height)
+      shapes.map((shape) => {
+        
+        return (
+          ctx.strokeRect(shape.x, shape.y, shape.width, shape.height) 
+         
        );
-
-       ctx.strokeRect(startX, startY, width, height);
+      }
+      );
+      
+         
+      
+      ctx.strokeRect(startX, startY, width, height);
+      
     })
 
     canvas?.addEventListener("mouseup", (e) => {
@@ -70,7 +78,7 @@ function App() {
 
 
   return (
-    <canvas ref={canvasref} width={dimensions.width} height={dimensions.height} style={{ backgroundColor: 'grey'}}></canvas>
+    <canvas ref={canvasref} width={dimensions.width} height={dimensions.height} ></canvas>
   );
 }
 
