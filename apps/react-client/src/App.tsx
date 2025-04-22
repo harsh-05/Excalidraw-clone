@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import Shape from "./shapes/shape";
 import Rectangle from "./shapes/rectangle";
+import Circle from "./shapes/circle";
 
 function App() {
   const [dimensions, setDimensions] = useState({
@@ -61,18 +62,28 @@ function App() {
     if (!startCoords) return;
 
     const currentPos = getPosition(e);
-    const width =  currentPos.x - startCoords?.startx ;
-    const height = currentPos.y - startCoords?.starty  ;
+    const width = currentPos.x - startCoords?.startx;
+    const height = currentPos.y - startCoords?.starty;
 
-   
-    const rect = new Rectangle(
-      startCoords?.startx,
-      startCoords?.starty,
+    // Trying to draw the circle
+
+    const circle = new Circle(
+      startCoords.startx,
+      startCoords.starty,
       width,
       height
     );
 
-    setPreviewShape(rect);
+    setPreviewShape(circle);
+
+    // const rect = new Rectangle(
+    //   startCoords?.startx,
+    //   startCoords?.starty,
+    //   width,
+    //   height
+    // );
+
+    // setPreviewShape(rect);
   }
 
   function handleMouseup(e: React.MouseEvent<HTMLCanvasElement>) {
@@ -82,14 +93,25 @@ function App() {
     const currentPos = getPosition(e);
     const width = currentPos.x - startCoords?.startx;
     const height = currentPos.y - startCoords?.starty;
-    const rect = new Rectangle(
-      startCoords?.startx,
-      startCoords?.starty,
+    
+    //drawing circle...
+    const circle = new Circle(
+      startCoords.startx,
+      startCoords.starty,
       width,
       height
     );
 
-    setShapes((prevshapes) => [...prevshapes, rect]);
+     setShapes((prevshapes) => [...prevshapes, circle]);
+
+    // const rect = new Rectangle(
+    //   startCoords?.startx,
+    //   startCoords?.starty,
+    //   width,
+    //   height
+    // );
+
+    // setShapes((prevshapes) => [...prevshapes, rect]);
 
     setIsDrawing(false);
     setPreviewShape(null);
