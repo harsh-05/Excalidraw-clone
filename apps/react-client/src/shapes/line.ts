@@ -7,8 +7,8 @@ class Line extends Shape {
     }
     
     draw(context: CanvasRenderingContext2D): void {
-        const endx = 2 * this.x - this.width;
-        const endy = 2 * this.y - this.height;
+        const endx = (this.x) + this.width;
+        const endy = (this.y) + this.height;
 
         context.beginPath();
         context.moveTo(this.x, this.y);
