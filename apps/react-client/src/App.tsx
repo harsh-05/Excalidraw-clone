@@ -2,6 +2,8 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import Shape from "./shapes/shape";
 import Rectangle from "./shapes/rectangle";
 import Circle from "./shapes/circle";
+import Line from "./shapes/line";
+
 
 function App() {
   const [dimensions, setDimensions] = useState({
@@ -65,16 +67,23 @@ function App() {
     const width = currentPos.x - startCoords?.startx;
     const height = currentPos.y - startCoords?.starty;
 
+    //Trying to move the Line shape using only x,y, width, height;
+
+    const line = new Line(startCoords.startx, startCoords.starty, width, height);
+
+    setPreviewShape(line);
+
+    
     // Trying to draw the circle
 
-    const circle = new Circle(
-      startCoords.startx,
-      startCoords.starty,
-      width,
-      height
-    );
+    // const circle = new Circle(
+    //   startCoords.startx,
+    //   startCoords.starty,
+    //   width,
+    //   height
+    // );
 
-    setPreviewShape(circle);
+    // setPreviewShape(circle);
 
     // const rect = new Rectangle(
     //   startCoords?.startx,
@@ -94,15 +103,27 @@ function App() {
     const width = currentPos.x - startCoords?.startx;
     const height = currentPos.y - startCoords?.starty;
     
-    //drawing circle...
-    const circle = new Circle(
-      startCoords.startx,
-      startCoords.starty,
-      width,
-      height
-    );
+    //Drawing Line
 
-     setShapes((prevshapes) => [...prevshapes, circle]);
+     const line = new Line(
+       startCoords.startx,
+       startCoords.starty,
+       width,
+       height
+     );
+    
+    setShapes((prevshapes) => [...prevshapes, line]);
+
+
+    //drawing circle...
+    // const circle = new Circle(
+    //   startCoords.startx,
+    //   startCoords.starty,
+    //   width,
+    //   height
+    // );
+
+    //  setShapes((prevshapes) => [...prevshapes, circle]);
 
     // const rect = new Rectangle(
     //   startCoords?.startx,
