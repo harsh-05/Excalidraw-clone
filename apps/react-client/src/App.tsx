@@ -19,6 +19,8 @@ function App() {
     starty: number;
   } | null>(null);
 
+  const [selectedtool, setSelectedTool] = useState<"Rectangle" | "Circle" | "Line" | null>(null);
+
   // will hold the one shape, which is currently is drawing.
   const [previewShape, setPreviewShape] = useState<Shape | null>(null);
 
@@ -51,6 +53,7 @@ function App() {
 
   //Functions to handle the mousedown, mousemove, mouseup
   function handleMouseDown(e: React.MouseEvent<HTMLCanvasElement>) {
+    if (selectedtool === null) return;
     setIsDrawing(true);
     //Giving start coordinates currently to clientx and clientY, find why offsetX and offsetY is not working here.
     // It is better to get the position this, find the reason and note it down in the google docs.
@@ -60,7 +63,7 @@ function App() {
   }
 
   function handleMouseMove(e: React.MouseEvent<HTMLCanvasElement>) {
-    if (!canvasref.current || isDrawing === false) return;
+    if (!canvasref.current || isDrawing === false || selectedtool === null) return;
     if (!startCoords) return;
 
     const currentPos = getPosition(e);
@@ -69,21 +72,36 @@ function App() {
 
     //Trying to move the Line shape using only x,y, width, height;
 
-    const line = new Line(startCoords.startx, startCoords.starty, width, height);
+    if (selectedtool === "Line") {
 
-    setPreviewShape(line);
+      const line = new Line(startCoords.startx, startCoords.starty, width, height);
+      setPreviewShape(line);
+
+    } else if (selectedtool === 'Circle') {
+      
+      const circle = new Circle(
+        startCoords.startx,
+        startCoords.starty,
+        width,
+        height
+      );
+      setPreviewShape(circle);
+
+    } else if (selectedtool === 'Rectangle') {
+      
+      const rect = new Rectangle(
+        startCoords?.startx,
+        startCoords?.starty,
+        width,
+        height
+      );
+      setPreviewShape(rect);
+    }
 
     
     // Trying to draw the circle
 
-    // const circle = new Circle(
-    //   startCoords.startx,
-    //   startCoords.starty,
-    //   width,
-    //   height
-    // );
-
-    // setPreviewShape(circle);
+    
 
     // const rect = new Rectangle(
     //   startCoords?.startx,
@@ -103,36 +121,41 @@ function App() {
     const width = currentPos.x - startCoords?.startx;
     const height = currentPos.y - startCoords?.starty;
     
-    //Drawing Line
+    if (selectedtool === 'Line') {
+      //Drawing Line
 
-     const line = new Line(
-       startCoords.startx,
-       startCoords.starty,
-       width,
-       height
-     );
+      const line = new Line(
+        startCoords.startx,
+        startCoords.starty,
+        width,
+        height
+      );
+
+      setShapes((prevshapes) => [...prevshapes, line]);
+    } else if (selectedtool === 'Circle') {
+      // drawing circle...
+      const circle = new Circle(
+        startCoords.startx,
+        startCoords.starty,
+        width,
+        height
+      );
+       setShapes((prevshapes) => [...prevshapes, circle]);
+    } else if (selectedtool === 'Rectangle') {
+      const rect = new Rectangle(
+        startCoords?.startx,
+        startCoords?.starty,
+        width,
+        height
+      );
+      setShapes((prevshapes) => [...prevshapes, rect]);
+    }
     
-    setShapes((prevshapes) => [...prevshapes, line]);
 
 
-    //drawing circle...
-    // const circle = new Circle(
-    //   startCoords.startx,
-    //   startCoords.starty,
-    //   width,
-    //   height
-    // );
+    
 
-    //  setShapes((prevshapes) => [...prevshapes, circle]);
-
-    // const rect = new Rectangle(
-    //   startCoords?.startx,
-    //   startCoords?.starty,
-    //   width,
-    //   height
-    // );
-
-    // setShapes((prevshapes) => [...prevshapes, rect]);
+   
 
     setIsDrawing(false);
     setPreviewShape(null);
@@ -161,14 +184,42 @@ function App() {
   }, [dimensions]);
 
   return (
-    <canvas
-      ref={canvasref}
-      width={dimensions.width}
-      height={dimensions.height}
-      onMouseDown={handleMouseDown}
-      onMouseUp={handleMouseup}
-      onMouseMove={handleMouseMove}
-    ></canvas>
+    <>
+      <div className="fixed top-10 left-1/2 transform -translate-x-1/2 p-2 flex justify-center gap-5 bg-red-300">
+        <button
+          className={`${selectedtool === "Circle" ? "bg-gray-500" : ""}`}
+          onClick={() => {
+            setSelectedTool("Circle");
+          }}
+        >
+          Circle
+        </button>
+        <button
+          className={`${selectedtool === "Rectangle" ? "bg-gray-500" : ""}`}
+          onClick={() => {
+            setSelectedTool("Rectangle");
+          }}
+        >
+          Rectangle
+        </button>
+        <button
+          className={`${selectedtool === "Line" ? "bg-gray-500" : ""}`}
+          onClick={() => {
+            setSelectedTool("Line");
+          }}
+        >
+          Line
+        </button>
+      </div>
+      <canvas
+        ref={canvasref}
+        width={dimensions.width}
+        height={dimensions.height}
+        onMouseDown={handleMouseDown}
+        onMouseUp={handleMouseup}
+        onMouseMove={handleMouseMove}
+      ></canvas>
+    </>
   );
 }
 
