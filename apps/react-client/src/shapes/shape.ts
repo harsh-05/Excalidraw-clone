@@ -1,12 +1,13 @@
+import { shapeType } from "@repo/schemazod";
 abstract class Shape {
    x: number;
    y: number;
    width: number;
    height: number;
-   type: "Rectangle" | "Circle" | "Line";
+   type: shapeType
 
 
-   constructor(x: number, y: number, width: number, height: number, type: "Rectangle" | "Circle" | "Line") {
+   constructor(x: number, y: number, width: number, height: number, type: shapeType) {
       this.x = x;
       this.y = y;
       this.height = height;

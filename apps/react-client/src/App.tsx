@@ -1,8 +1,8 @@
-import { useCallback, useEffect, useRef, useState } from "react";
-import Shape from "./shapes/shape";
-import Rectangle from "./shapes/rectangle";
-import Circle from "./shapes/circle";
-import Line from "./shapes/line";
+import { useEffect, useState } from "react";
+// import Shape from "./shapes/shape";
+// import Rectangle from "./shapes/rectangle";
+// import Circle from "./shapes/circle";
+// import Line from "./shapes/line";
 import useDrawHook from "./Hooks/useDrawHook";
 
 function App() {

@@ -3,6 +3,10 @@ import Shape from "../shapes/shape";
 import Line from "../shapes/line";
 import Circle from "../shapes/circle";
 import Rectangle from "../shapes/rectangle";
+import { shapeType } from "@repo/schemazod";
+
+
+// Needed to create a helper function which will use to return the instance for 
 
 
 const useDrawHook = (dimensions: { width: number, height: number }) => {
@@ -16,7 +20,7 @@ const useDrawHook = (dimensions: { width: number, height: number }) => {
         starty: number;
     } | null>(null);
 
-    const [selectedtool, setSelectedTool] = useState<"Rectangle" | "Circle" | "Line" | null>(null);
+    const [selectedtool, setSelectedTool] = useState<shapeType| null>(null);
 
     // will hold the one shape, which is currently is drawing.
     const [previewShape, setPreviewShape] = useState<Shape | null>(null);
@@ -46,6 +50,8 @@ const useDrawHook = (dimensions: { width: number, height: number }) => {
         const y = e.clientY - rect.y;
         return { x, y };
     }
+
+    
 
     //Functions to handle the mousedown, mousemove, mouseup
     function handleMouseDown(e: React.MouseEvent<HTMLCanvasElement>) {
