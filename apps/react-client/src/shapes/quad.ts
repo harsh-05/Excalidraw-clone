@@ -7,15 +7,18 @@ class Quad extends Shape {
     }
     
     draw(context: CanvasRenderingContext2D): void {
-        // (width /2, starty)-----> but the issue here is di
-        // (startx + width = endx, height /2)
-        // (width /2, y + height = endy )
-        // (startx, height /2)
+        // (width /2, starty)-----> but the issue here is (width /2 is the length, we have to add the starting point too)
 
-        const point1 = { x: (this.width / 2), y: this.y };
-        const point2 = { x: (this.x + this.width), y: (this.height / 2) };
-        const point3 = { x: (this.width / 2), y: this.y + this.height };
-        const point4 = { x: (this.x), y: this.height /2 };
+        // so the first point will become here is 1. (startx + width /2, starty)
+
+        // (startx + width = endx, height /2) ------> similarly this will become 2.(startx + height, starty + height /2)
+        // (width /2, y + height = endy ) ------> 3. (startx + width /2, y + height)
+        // (startx, height /2) ---------> 4. (startx, starty + height /2)
+
+        const point1 = { x: (this.x + this.width / 2), y: this.y };
+        const point2 = { x: (this.x + this.width), y: (this.y + this.height / 2) };
+        const point3 = { x: (this.x + this.width / 2), y: this.y + this.height };
+        const point4 = { x: (this.x), y: this.y + this.height /2 };
 
         context.beginPath();
         context.moveTo(point1.x, point1.y);
