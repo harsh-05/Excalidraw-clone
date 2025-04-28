@@ -56,6 +56,14 @@ function App() {
         >
           Line
         </button>
+        <button
+          className={`${selectedtool === "Quad" ? "bg-gray-500" : ""}`}
+          onClick={() => {
+            setSelectedTool("Quad");
+          }}
+        >
+          Quad
+        </button>
       </div>
       <canvas
         ref={canvasref}

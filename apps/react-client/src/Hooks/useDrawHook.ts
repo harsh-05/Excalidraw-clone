@@ -4,6 +4,7 @@ import Line from "../shapes/line";
 import Circle from "../shapes/circle";
 import Rectangle from "../shapes/rectangle";
 import { shapeType } from "@repo/schemazod";
+import Quad from "../shapes/quad";
 
 
 // Needed to create a helper function which will use to return the instance for 
@@ -98,6 +99,9 @@ const useDrawHook = (dimensions: { width: number, height: number }) => {
                 height
             );
             setPreviewShape(rect);
+        } else if (selectedtool === 'Quad') {
+            const quad = new Quad(startCoords.startx, startCoords.starty, width, height);
+            setPreviewShape(quad);
         }
     }
 
@@ -137,7 +141,12 @@ const useDrawHook = (dimensions: { width: number, height: number }) => {
                 height
             );
             setShapes((prevshapes) => [...prevshapes, rect]);
+        } else if (selectedtool === 'Quad') {
+            const quad = new Quad(startCoords.startx, startCoords.starty, width, height);
+            setShapes((prevshapes) => [...prevshapes, quad]);
         }
+
+
         setIsDrawing(false);
         setPreviewShape(null);
         setStartCoords(null);
