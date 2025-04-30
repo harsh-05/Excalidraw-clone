@@ -7,7 +7,19 @@ import { shapeType } from "@repo/schemazod";
 import Quad from "../shapes/quad";
 
 
-// Needed to create a helper function which will use to return the instance for 
+// Needed to create a helper function which will use to return the instance for
+
+type ShapeConstructor = new (
+    x: number, y: number, width: number, height: number
+)=>Shape;
+
+const shapeConstructors: Record<shapeType, ShapeConstructor> = {
+    Rectangle: Rectangle,
+    Circle: Circle,
+    Line: Line,
+    Quad: Quad
+}
+
 
 
 const useDrawHook = (dimensions: { width: number, height: number }) => {
@@ -75,76 +87,91 @@ const useDrawHook = (dimensions: { width: number, height: number }) => {
 
         //Trying to move the Line shape using only x,y, width, height;
 
-        if (selectedtool === "Line") {
+        const constructor = shapeConstructors[selectedtool];
 
-            const line = new Line(startCoords.startx, startCoords.starty, width, height);
-            setPreviewShape(line);
-
-        } else if (selectedtool === 'Circle') {
-
-            const circle = new Circle(
-                startCoords.startx,
-                startCoords.starty,
-                width,
-                height
-            );
-            setPreviewShape(circle);
-
-        } else if (selectedtool === 'Rectangle') {
-
-            const rect = new Rectangle(
-                startCoords?.startx,
-                startCoords?.starty,
-                width,
-                height
-            );
-            setPreviewShape(rect);
-        } else if (selectedtool === 'Quad') {
-            const quad = new Quad(startCoords.startx, startCoords.starty, width, height);
-            setPreviewShape(quad);
+        if (constructor) {
+            const shape = new constructor(startCoords.startx, startCoords.starty, width, height);
+            setPreviewShape(shape);
         }
+
+        // if (selectedtool === "Line") {
+
+        //     const line = new Line(startCoords.startx, startCoords.starty, width, height);
+        //     setPreviewShape(line);
+
+        // } else if (selectedtool === 'Circle') {
+
+        //     const circle = new Circle(
+        //         startCoords.startx,
+        //         startCoords.starty,
+        //         width,
+        //         height
+        //     );
+        //     setPreviewShape(circle);
+
+        // } else if (selectedtool === 'Rectangle') {
+
+        //     const rect = new Rectangle(
+        //         startCoords?.startx,
+        //         startCoords?.starty,
+        //         width,
+        //         height
+        //     );
+        //     setPreviewShape(rect);
+        // } else if (selectedtool === 'Quad') {
+        //     const quad = new Quad(startCoords.startx, startCoords.starty, width, height);
+        //     setPreviewShape(quad);
+        // }
     }
 
     function handleMouseup(e: React.MouseEvent<HTMLCanvasElement>) {
-        if (!canvasref.current || isDrawing === false) return;
+        if (!canvasref.current || isDrawing === false || selectedtool == null) return;
         if (!startCoords) return;
 
         const currentPos = getPosition(e);
         const width = currentPos.x - startCoords?.startx;
         const height = currentPos.y - startCoords?.starty;
 
-        if (selectedtool === 'Line') {
-            //Drawing Line
 
-            const line = new Line(
-                startCoords.startx,
-                startCoords.starty,
-                width,
-                height
-            );
+        const constructor = shapeConstructors[selectedtool];
 
-            setShapes((prevshapes) => [...prevshapes, line]);
-        } else if (selectedtool === 'Circle') {
-            // drawing circle...
-            const circle = new Circle(
-                startCoords.startx,
-                startCoords.starty,
-                width,
-                height
-            );
-            setShapes((prevshapes) => [...prevshapes, circle]);
-        } else if (selectedtool === 'Rectangle') {
-            const rect = new Rectangle(
-                startCoords?.startx,
-                startCoords?.starty,
-                width,
-                height
-            );
-            setShapes((prevshapes) => [...prevshapes, rect]);
-        } else if (selectedtool === 'Quad') {
-            const quad = new Quad(startCoords.startx, startCoords.starty, width, height);
-            setShapes((prevshapes) => [...prevshapes, quad]);
+        if (constructor) {
+            const shape = new constructor(startCoords.startx, startCoords.starty, width, height);
+            setShapes((prev) => [...prev, shape]);
         }
+
+        // if (selectedtool === 'Line') {
+        //     //Drawing Line
+
+        //     const line = new Line(
+        //         startCoords.startx,
+        //         startCoords.starty,
+        //         width,
+        //         height
+        //     );
+
+        //     setShapes((prevshapes) => [...prevshapes, line]);
+        // } else if (selectedtool === 'Circle') {
+        //     // drawing circle...
+        //     const circle = new Circle(
+        //         startCoords.startx,
+        //         startCoords.starty,
+        //         width,
+        //         height
+        //     );
+        //     setShapes((prevshapes) => [...prevshapes, circle]);
+        // } else if (selectedtool === 'Rectangle') {
+        //     const rect = new Rectangle(
+        //         startCoords?.startx,
+        //         startCoords?.starty,
+        //         width,
+        //         height
+        //     );
+        //     setShapes((prevshapes) => [...prevshapes, rect]);
+        // } else if (selectedtool === 'Quad') {
+        //     const quad = new Quad(startCoords.startx, startCoords.starty, width, height);
+        //     setShapes((prevshapes) => [...prevshapes, quad]);
+        // }
 
 
         setIsDrawing(false);
