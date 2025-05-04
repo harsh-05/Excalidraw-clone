@@ -1,9 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 // import Shape from "./shapes/shape";
 // import Rectangle from "./shapes/rectangle";
 // import Circle from "./shapes/circle";
 // import Line from "./shapes/line";
-import useDrawHook from "./Hooks/useDrawHook";
+//import useDrawHook from "./Hooks/useDrawHook";
+import { DrawController } from "./controllers/drawcontroller";
+import { shapeType } from "@repo/schemazod";
 
 function App() {
   const [dimensions, setDimensions] = useState({
@@ -11,23 +13,46 @@ function App() {
     height: window.innerHeight,
   });
 
-  const { handleMouseDown, handleMouseMove, handleMouseup, selectedtool, setSelectedTool, canvasref } = useDrawHook(dimensions);
+  const [selectedtool, setSelectedTool] = useState<shapeType | null>(null);
+
+  const canvasref = useRef<HTMLCanvasElement| null>(null);
+  const drawController = useRef<DrawController| null>(null);
+
+  //const { handleMouseDown, handleMouseMove, handleMouseup, selectedtool, setSelectedTool, canvasref } = useDrawHook(dimensions);
 
   // Upon loading of the page then giving the size of the canvas accroding to the window's dimensions, added a event listener to make it responsive.
   useEffect(() => {
     if (!canvasref.current) return;
 
-    function resize() {
-      setDimensions(() => ({
-        width: window.innerWidth,
-        height: window.innerHeight,
-      }));
+    function handleResize() {
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+
+      setDimensions(() => ({ width, height, }));
+      drawController.current?.setDimension(width, height);
     }
 
-    window.addEventListener("resize", resize);
+    window.addEventListener("resize", handleResize);
 
-    return () => window.removeEventListener("resize", resize);
-  }, [dimensions]);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  useEffect(() => {
+    if (canvasref.current) {
+      drawController.current = new DrawController(canvasref.current);
+      drawController.current.setDimension(dimensions.width, dimensions.height);
+    }
+
+    return () => {
+      drawController.current?.destroy();
+      drawController.current = null;
+    };
+  }, []);
+
+  function handletoolSelect(tool: shapeType | null) {
+    setSelectedTool(tool);
+    drawController.current?.setSelectedTool(tool);
+  }
 
   return (
     <>
@@ -35,7 +60,7 @@ function App() {
         <button
           className={`${selectedtool === "Circle" ? "bg-gray-500" : ""}`}
           onClick={() => {
-            setSelectedTool("Circle");
+           handletoolSelect("Circle");
           }}
         >
           Circle
@@ -43,7 +68,7 @@ function App() {
         <button
           className={`${selectedtool === "Rectangle" ? "bg-gray-500" : ""}`}
           onClick={() => {
-            setSelectedTool("Rectangle");
+           handletoolSelect("Rectangle");
           }}
         >
           Rectangle
@@ -51,7 +76,7 @@ function App() {
         <button
           className={`${selectedtool === "Line" ? "bg-gray-500" : ""}`}
           onClick={() => {
-            setSelectedTool("Line");
+           handletoolSelect("Line");
           }}
         >
           Line
@@ -59,7 +84,7 @@ function App() {
         <button
           className={`${selectedtool === "Quad" ? "bg-gray-500" : ""}`}
           onClick={() => {
-            setSelectedTool("Quad");
+           handletoolSelect("Quad");
           }}
         >
           Quad
@@ -69,9 +94,9 @@ function App() {
         ref={canvasref}
         width={dimensions.width}
         height={dimensions.height}
-        onMouseDown={handleMouseDown}
-        onMouseUp={handleMouseup}
-        onMouseMove={handleMouseMove}
+        // onMouseDown={handleMouseDown}
+        // onMouseUp={handleMouseup}
+        // onMouseMove={handleMouseMove}
       ></canvas>
     </>
   );

@@ -20,7 +20,7 @@ const shapeConstructors: Record<shapeType, ShapeConstructor> = {
 
 
 
-export class DrawController{
+export class DrawController {
 
     private canvas: HTMLCanvasElement;
     private ctx: CanvasRenderingContext2D;
@@ -31,8 +31,8 @@ export class DrawController{
     private previewShape: Shape | null = null;
     private isdrawing: boolean = false;
     private startCoordinates: { startX: number, startY: number } | null = null;
-    
-    
+
+
     private selectedTool: shapeType | null = null;
 
 
@@ -41,7 +41,7 @@ export class DrawController{
     // we have to understand the concept of bind and this in js oops, and How "this" looses the context when passsed as a callback function.
     // Additionally, we have to make sure that when we call the addEventlistener and removeEventlistener, would require the exact reference of 
     // callback function
-    
+
     // So these functions are only for the reference for the eventlistener's callback fucntiosn.
 
     private boundHandleMouseMove: (event: MouseEvent) => void;
@@ -49,7 +49,7 @@ export class DrawController{
     private boundHandleMouseDown: (event: MouseEvent) => void;
 
 
-    
+
 
     constructor(canvasElement: HTMLCanvasElement) {
         this.canvas = canvasElement;
@@ -65,10 +65,6 @@ export class DrawController{
         this.boundHandleMouseDown = this.handleMouseDown.bind(this);
 
         this.attachEventlistener();
-    }
-
-    public destroy() {
-        this.removeEventlistener();
     }
 
 
@@ -91,9 +87,9 @@ export class DrawController{
         const y = e.clientY - rect.y;
         return { x, y };
     }
-    
 
-    
+
+
     private handleMouseDown(event: MouseEvent): void {
         if (this.selectedTool === null) return;
         this.isdrawing = true;
@@ -103,9 +99,9 @@ export class DrawController{
         this.previewShape = null;
     }
 
-    
+
     private handleMouseMove(event: MouseEvent): void {
-        
+
         if (!this.isdrawing || !this.startCoordinates || this.selectedTool === null) return;
 
         const currentPos = this.getPosition(event);
@@ -117,7 +113,7 @@ export class DrawController{
             const shape = new constructor(this.startCoordinates.startX, this.startCoordinates.startY, width, height);
 
             this.previewShape = shape;
-            
+
             this.draw();
         }
     }
@@ -153,9 +149,9 @@ export class DrawController{
     }
 
 
-    private draw():void {
+    private draw(): void {
         if (!this.canvas || !this.ctx) return;
-        
+
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
         this.shapes.map((shape) => (
@@ -168,12 +164,22 @@ export class DrawController{
     }
 
 
+
+    public destroy() {
+        this.removeEventlistener();
+    }
+
+
     public setDimension(width: number, height: number) {
         this.canvas.width = width;
         this.canvas.height = height;
         this.draw();
     }
 
+    public setSelectedTool(tool: shapeType | null) {
+        this.selectedTool = tool;
+    }
 
-   
+
+
 }
