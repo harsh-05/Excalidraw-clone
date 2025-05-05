@@ -100,12 +100,19 @@ export class DrawController {
         if (this.selectedTool === null) return;
 
         const { x, y } = this.getPosition(event);
+
+        this.selectedShape = null;
+        this.isDragging = false;
+        this.offsetCoords = null;
+
         
 
         if (this.selectedTool === "Select") {
-
+            console.log("selected tool");
+            
             for (let i = this.shapes.length - 1; i >= 0; i--) {
                 if (this.shapes[i].isSelected(x, y)) {
+                    console.log("within the shape");
                     this.selectedShape = this.shapes[i];
                     this.isDragging = true;
 
@@ -205,6 +212,16 @@ export class DrawController {
         if (this.previewShape) {
             this.previewShape.draw(this.ctx);
         }
+
+        // --- Draw Selection Highlight ---
+        if (this.selectedShape) {
+            this.ctx.save(); // Save current context state, before applying the upcoming styles.
+
+            this.ctx.strokeStyle = "blue";
+            this.ctx.strokeRect(this.selectedShape.x -3, this.selectedShape.y -3, this.selectedShape.width + 6, this.selectedShape.height +6);
+
+            this.ctx.restore();  // popping out the above set style from the context stack.
+        }
     }
 
 
@@ -221,7 +238,11 @@ export class DrawController {
     }
 
     public setSelectedTool(tool: shapeType | "Select" | null) {
+        this.isDragging = false;
+        this.selectedShape = null;
+        this.offsetCoords = null;
         this.selectedTool = tool;
+        this.draw()
     }
 
 

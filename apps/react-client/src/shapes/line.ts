@@ -15,6 +15,16 @@ class Line extends Shape {
         context.lineTo(endx, endy);
         context.stroke();
     }
+
+    isSelected(x: number, y: number): boolean {
+       
+        const minX = Math.min(this.x, this.x + this.width);
+        const maxX = Math.max(this.x, this.x + this.width);
+        const minY = Math.min(this.y, this.y + this.height);
+        const maxY = Math.max(this.y, this.y + this.height);
+
+        return x >= minX && x <= maxX && y >= minY && y <= maxY;
+    }
 }
 
 export default Line

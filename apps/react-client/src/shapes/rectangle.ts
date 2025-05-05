@@ -14,9 +14,13 @@ class Rectangle extends Shape {
     }
 
     isSelected(x: number, y: number): boolean {
-        if (x < this.x && y < this.y) return false;
-        if (x > this.x + this.width || y > this.y + this.height) return false;
-        return true
+        
+        const minX = Math.min(this.x, this.x + this.width);
+        const maxX = Math.max(this.x, this.x + this.width);
+        const minY = Math.min(this.y, this.y + this.height);
+        const maxY = Math.max(this.y, this.y + this.height);
+
+        return x >= minX && x <= maxX && y >= minY && y <= maxY;
     }
 }
 
