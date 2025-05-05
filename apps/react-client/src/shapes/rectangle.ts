@@ -12,6 +12,12 @@ class Rectangle extends Shape {
     draw(context: CanvasRenderingContext2D): void {
         context.strokeRect(this.x, this.y, this.width, this.height);
     }
+
+    isSelected(x: number, y: number): boolean {
+        if (x < this.x && y < this.y) return false;
+        if (x > this.x + this.width || y > this.y + this.height) return false;
+        return true
+    }
 }
 
 export default Rectangle;

@@ -13,7 +13,7 @@ function App() {
     height: window.innerHeight,
   });
 
-  const [selectedtool, setSelectedTool] = useState<shapeType | null>(null);
+  const [selectedtool, setSelectedTool] = useState<shapeType | "Select" | null>(null);
 
   const canvasref = useRef<HTMLCanvasElement| null>(null);
   const drawController = useRef<DrawController| null>(null);
@@ -49,7 +49,7 @@ function App() {
     };
   }, []);
 
-  function handletoolSelect(tool: shapeType | null) {
+  function handletoolSelect(tool: shapeType | "Select" | null) {
     setSelectedTool(tool);
     drawController.current?.setSelectedTool(tool);
   }
@@ -58,9 +58,17 @@ function App() {
     <>
       <div className="fixed top-10 left-1/2 transform -translate-x-1/2 p-2 flex justify-center gap-5 bg-red-300">
         <button
+          className={`${selectedtool === "Select" ? "bg-gray-500" : ""}`}
+          onClick={() => {
+            handletoolSelect("Select");
+          }}
+        >
+          Select
+        </button>
+        <button
           className={`${selectedtool === "Circle" ? "bg-gray-500" : ""}`}
           onClick={() => {
-           handletoolSelect("Circle");
+            handletoolSelect("Circle");
           }}
         >
           Circle
@@ -68,7 +76,7 @@ function App() {
         <button
           className={`${selectedtool === "Rectangle" ? "bg-gray-500" : ""}`}
           onClick={() => {
-           handletoolSelect("Rectangle");
+            handletoolSelect("Rectangle");
           }}
         >
           Rectangle
@@ -76,7 +84,7 @@ function App() {
         <button
           className={`${selectedtool === "Line" ? "bg-gray-500" : ""}`}
           onClick={() => {
-           handletoolSelect("Line");
+            handletoolSelect("Line");
           }}
         >
           Line
@@ -84,7 +92,7 @@ function App() {
         <button
           className={`${selectedtool === "Quad" ? "bg-gray-500" : ""}`}
           onClick={() => {
-           handletoolSelect("Quad");
+            handletoolSelect("Quad");
           }}
         >
           Quad

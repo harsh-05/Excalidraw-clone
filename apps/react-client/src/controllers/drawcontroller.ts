@@ -19,6 +19,7 @@ const shapeConstructors: Record<shapeType, ShapeConstructor> = {
 }
 
 
+type Tool = shapeType | "Select";
 
 export class DrawController {
 
@@ -32,8 +33,13 @@ export class DrawController {
     private isdrawing: boolean = false;
     private startCoordinates: { startX: number, startY: number } | null = null;
 
+    // variables for selection and moving
+    private selectedShape: Shape | null = null;
+    private isDragging: boolean = false;
+    private offsetCoords: { offsetX: number, offsetY: number } | null = null;
+    
 
-    private selectedTool: shapeType | null = null;
+    private selectedTool: Tool | null = null;
 
 
     // Creating the Bound mouse events functions, do read about "this" and "bind" online or on google docs...
@@ -92,60 +98,98 @@ export class DrawController {
 
     private handleMouseDown(event: MouseEvent): void {
         if (this.selectedTool === null) return;
-        this.isdrawing = true;
-        const { x, y } = this.getPosition(event);
 
-        this.startCoordinates = { startX: x, startY: y }
-        this.previewShape = null;
+        const { x, y } = this.getPosition(event);
+        
+
+        if (this.selectedTool === "Select") {
+
+            for (let i = this.shapes.length - 1; i >= 0; i--) {
+                if (this.shapes[i].isSelected(x, y)) {
+                    this.selectedShape = this.shapes[i];
+                    this.isDragging = true;
+
+                    const offsetX = x - this.shapes[i].x;
+                    const offsetY = y - this.shapes[i].y;
+
+                    this.offsetCoords = { offsetX, offsetY };
+                    break;
+                }
+            }
+
+            // Calling draw() to draw the selection around the shape...
+            this.draw();
+
+        } else if (this.selectedTool !== null) {
+
+            // Setting these only if we are drawing the shape
+            this.startCoordinates = { startX: x, startY: y }
+            this.isdrawing = true;
+            this.previewShape = null;
+        }
     }
 
 
     private handleMouseMove(event: MouseEvent): void {
-
-        if (!this.isdrawing || !this.startCoordinates || this.selectedTool === null) return;
-
         const currentPos = this.getPosition(event);
-        const width = currentPos.x - this.startCoordinates.startX;
-        const height = currentPos.y - this.startCoordinates.startY;
-
-        const constructor = shapeConstructors[this.selectedTool];
-        if (constructor) {
-            const shape = new constructor(this.startCoordinates.startX, this.startCoordinates.startY, width, height);
-
-            this.previewShape = shape;
-
+        
+        if (this.isDragging && this.selectedShape && this.offsetCoords) {
+            this.selectedShape.x = currentPos.x - this.offsetCoords.offsetX;
+            this.selectedShape.y = currentPos.y - this.offsetCoords.offsetY;
             this.draw();
+        } else if (this.isdrawing && this.selectedTool !== "Select" && this.selectedTool !== null && this.startCoordinates) {
+
+            // If we are creating the shape then this
+            const width = currentPos.x - this.startCoordinates.startX;
+            const height = currentPos.y - this.startCoordinates.startY;
+            const constructor = shapeConstructors[this.selectedTool];
+            if (constructor) {
+                const shape = new constructor(this.startCoordinates.startX, this.startCoordinates.startY, width, height);
+
+                this.previewShape = shape;
+
+                this.draw();
+            }
         }
     }
 
 
     private handleMouseUp(event: MouseEvent): void {
-        if (!this.isdrawing || !this.startCoordinates || this.selectedTool === null) {
-            this.isdrawing = false;
-            return;
+        if (this.isDragging) {
+            this.isDragging = false;
+            this.offsetCoords = null;
+            this.draw();
+
         }
+        else if (this.isdrawing && this.startCoordinates && this.selectedTool !== "Select" && this.selectedTool !== null) {
+           
+            const currentPos = this.getPosition(event);
+            const width = currentPos.x - this.startCoordinates.startX;
+            const height = currentPos.y - this.startCoordinates.startY;
 
-        const currentPos = this.getPosition(event);
-        const width = currentPos.x - this.startCoordinates.startX;
-        const height = currentPos.y - this.startCoordinates.startY;
+            const constructor = shapeConstructors[this.selectedTool];
 
-        const constructor = shapeConstructors[this.selectedTool];
+            if (constructor) {
 
-        if (constructor) {
+                if (width !== 0 && height !== 0) {
+                    const shape = new constructor(this.startCoordinates.startX, this.startCoordinates.startY, width, height);
 
-            if (width !== 0 && height !== 0) {
-                const shape = new constructor(this.startCoordinates.startX, this.startCoordinates.startY, width, height);
+                    this.shapes.push(shape);
 
-                this.shapes.push(shape);
-
+                }
             }
+
+            this.isdrawing = false;
+            this.previewShape = null;
+            this.startCoordinates = null;
+
+            this.draw();
+        } else {
+            this.isdrawing = false;
+            this.isDragging = false;
         }
 
-        this.isdrawing = false;
-        this.previewShape = null;
-        this.startCoordinates = null;
-
-        this.draw();
+        
     }
 
 
@@ -176,7 +220,7 @@ export class DrawController {
         this.draw();
     }
 
-    public setSelectedTool(tool: shapeType | null) {
+    public setSelectedTool(tool: shapeType | "Select" | null) {
         this.selectedTool = tool;
     }
 

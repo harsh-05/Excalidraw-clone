@@ -15,9 +15,9 @@ abstract class Shape {
       this.type = type;
    }
 
-   abstract draw (context: CanvasRenderingContext2D): void 
+   abstract draw(context: CanvasRenderingContext2D): void;
 
-
+   abstract isSelected(x: number, y: number): boolean;
 
 }
 
