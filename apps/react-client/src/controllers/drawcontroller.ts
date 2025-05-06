@@ -108,11 +108,11 @@ export class DrawController {
         
 
         if (this.selectedTool === "Select") {
-            console.log("selected tool");
+            
             
             for (let i = this.shapes.length - 1; i >= 0; i--) {
                 if (this.shapes[i].isSelected(x, y)) {
-                    console.log("within the shape");
+                    
                     this.selectedShape = this.shapes[i];
                     this.isDragging = true;
 
@@ -216,9 +216,16 @@ export class DrawController {
         // --- Draw Selection Highlight ---
         if (this.selectedShape) {
             this.ctx.save(); // Save current context state, before applying the upcoming styles.
-
+           
             this.ctx.strokeStyle = "blue";
-            this.ctx.strokeRect(this.selectedShape.x -3, this.selectedShape.y -3, this.selectedShape.width + 6, this.selectedShape.height +6);
+            
+            const buffer = 4; // Padding around the selection visualization.
+            const x = Math.min(this.selectedShape.x, this.selectedShape.x + this.selectedShape.width);
+            const y = Math.min(this.selectedShape.y, this.selectedShape.y + this.selectedShape.height);
+            const w = Math.abs(this.selectedShape.width);
+            const h = Math.abs(this.selectedShape.height);
+
+            this.ctx.strokeRect(x - buffer,  y - buffer,  w + buffer*2,  h + buffer*2);
 
             this.ctx.restore();  // popping out the above set style from the context stack.
         }
