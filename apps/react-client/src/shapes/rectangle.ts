@@ -1,3 +1,4 @@
+import { Handle, ResizeHandleEnum } from "../types/types";
 import Shape from "./shape";
 
 class Rectangle extends Shape {
@@ -21,6 +22,19 @@ class Rectangle extends Shape {
         const maxY = Math.max(this.y, this.y + this.height);
 
         return x >= minX && x <= maxX && y >= minY && y <= maxY;
+    }
+
+    getResizeHandles(selectionBuffer: number): Handle[] {
+        const x = Math.min(this.x, this.x + this.width) - selectionBuffer - this.resizeHandleSize/2;
+        const y = Math.min(this.y, this.y + this.height) - selectionBuffer - this.resizeHandleSize/2;
+        const width = Math.abs(this.width) + 2 * selectionBuffer;
+        const height = Math.abs(this.height) + 2 * selectionBuffer;
+        return [
+            { type: ResizeHandleEnum.Top_Left, x: x, y: y, width: this.resizeHandleSize, height: this.resizeHandleSize },
+            { type: ResizeHandleEnum.Top_right, x: x + width, y: y, width: this.resizeHandleSize, height: this.resizeHandleSize },
+            { type: ResizeHandleEnum.Bottom_left, x: x, y: y + height, width: this.resizeHandleSize, height: this.resizeHandleSize },
+            { type: ResizeHandleEnum.Bottom_right, x: x + width, y: y + height, width: this.resizeHandleSize, height: this.resizeHandleSize}
+            ]
     }
 }
 
