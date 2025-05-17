@@ -27,6 +27,9 @@ export class DrawController {
     private ctx: CanvasRenderingContext2D;
 
 
+    //Selection Visualization buffer 
+    private readonly buffer = 8;
+
 
     private shapes: Shape[] = [];
     private previewShape: Shape | null = null;
@@ -219,19 +222,23 @@ export class DrawController {
            
             this.ctx.strokeStyle = "blue";
             
-            const buffer = 8; // Padding around the selection visualization.
+           // const buffer = 8; // Padding around the selection visualization.
             const x = Math.min(this.selectedShape.x, this.selectedShape.x + this.selectedShape.width);
             const y = Math.min(this.selectedShape.y, this.selectedShape.y + this.selectedShape.height);
             const w = Math.abs(this.selectedShape.width);
             const h = Math.abs(this.selectedShape.height);
 
-            this.ctx.strokeRect(x - buffer, y - buffer, w + buffer * 2, h + buffer * 2);
+            this.ctx.strokeRect(x - this.buffer, y - this.buffer, w + this.buffer * 2, h + this.buffer * 2);
             
 
-            //Drawing Handles of the selected Shapes.....
-            const handles = this.selectedShape.getResizeHandles(buffer);
+            //Drawing Resize Handles of the selected Shapes.....
+            const handles = this.selectedShape.getResizeHandles(this.buffer);
             for (let handle of handles) {
+                this.ctx.save();
+                this.ctx.fillStyle = "white";
                 this.ctx.fillRect(handle.x, handle.y, handle.width, handle.height);
+                this.ctx.strokeRect(handle.x, handle.y, handle.width, handle.height);
+                this.ctx.restore();
             }
 
             this.ctx.restore();  // popping out the above set style from the context stack.

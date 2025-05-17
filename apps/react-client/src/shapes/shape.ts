@@ -24,16 +24,19 @@ abstract class Shape {
 
    abstract getResizeHandles(selectionBuffer: number): Handle[];
 
-   detectResizeHandle(x: number, y: number, selectionBuffer: number) {
+   detectResizeHandle(x: number, y: number, selectionBuffer: number): Handle | null {
       const handles = this.getResizeHandles(selectionBuffer);
 
       for (let handle of handles) {
          const minX = Math.min(handle.x, handle.x + handle.width);
          const maxX = Math.max(handle.x, handle.x + handle.width);
-         const minY = Math.max(handle.y, handle.y + handle.height);
+         const minY = Math.min(handle.y, handle.y + handle.height);
          const maxY = Math.max(handle.y, handle.y + handle.height);
 
-         return x >= minX && x <= maxX && y >= minY && y <= maxY;
+         if (x >= minX && x <= maxX && y >= minY && y <= maxY) {
+            return handle;
+         }
+       
       }
       return null;
    }
