@@ -1,5 +1,5 @@
 import { shapeType } from "@repo/schemazod";
-import { Handle } from "../types/types";
+import { Handle, ResizeHandleEnum } from "../types/types";
 abstract class Shape {
    x: number;
    y: number;
@@ -20,11 +20,15 @@ abstract class Shape {
 
    abstract isSelected(x: number, y: number): boolean;
 
+
+
    protected resizeHandleSize = 8;
 
    abstract getResizeHandles(selectionBuffer: number): Handle[];
 
-   detectResizeHandle(x: number, y: number, selectionBuffer: number): Handle | null {
+   abstract resizeShape(startx: number, startY: number, currentX: number, currentY: number, handleType: ResizeHandleEnum): void;
+
+   detectResizeHandle(x: number, y: number, selectionBuffer: number): ResizeHandleEnum | null {
       const handles = this.getResizeHandles(selectionBuffer);
 
       for (let handle of handles) {
@@ -34,7 +38,7 @@ abstract class Shape {
          const maxY = Math.max(handle.y, handle.y + handle.height);
 
          if (x >= minX && x <= maxX && y >= minY && y <= maxY) {
-            return handle;
+            return handle.type;
          }
        
       }

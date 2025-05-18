@@ -4,6 +4,7 @@ import Rectangle from "../shapes/rectangle";
 import Circle from "../shapes/circle";
 import Line from "../shapes/line";
 import Quad from "../shapes/quad";
+import { ResizeHandleEnum } from "../types/types";
 
 
 
@@ -29,8 +30,11 @@ export class DrawController {
 
     //Selection Visualization buffer 
     private readonly buffer = 8;
+    //Resizing properties......
+    private isResizing: boolean = false;
+    private resizeHandleType: ResizeHandleEnum | null = null;
 
-
+    // Properties for drawing a new shapes......
     private shapes: Shape[] = [];
     private previewShape: Shape | null = null;
     private isdrawing: boolean = false;
@@ -104,11 +108,23 @@ export class DrawController {
 
         const { x, y } = this.getPosition(event);
 
+
+        if (this.selectedTool === "Select" && this.selectedShape !== null) {
+            const handle = this.selectedShape.detectResizeHandle(x, y, this.buffer);
+            if (handle !== null) {
+                this.isResizing = true;
+                this.resizeHandleType = handle;
+                this.startCoordinates = { startX: x, startY: y };
+                return;
+            }
+        }
+        
         this.selectedShape = null;
         this.isDragging = false;
         this.offsetCoords = null;
-
-        
+        this.resizeHandleType = null;
+        this.isResizing = false;
+       
 
         if (this.selectedTool === "Select") {
             
@@ -136,7 +152,7 @@ export class DrawController {
             this.startCoordinates = { startX: x, startY: y }
             this.isdrawing = true;
             this.previewShape = null;
-        }
+        } 
     }
 
 
@@ -160,6 +176,10 @@ export class DrawController {
 
                 this.draw();
             }
+        } else if (this.isResizing && this.resizeHandleType !== null && this.startCoordinates && this.selectedShape) {
+            this.selectedShape.resizeShape(this.startCoordinates.startX, this.startCoordinates.startY, currentPos.x, currentPos.y, this.resizeHandleType);
+            this.startCoordinates = { startX: currentPos.x, startY: currentPos.y };
+            this.draw();
         }
     }
 
@@ -194,7 +214,12 @@ export class DrawController {
             this.startCoordinates = null;
 
             this.draw();
-        } else {
+        } else if (this.isResizing && this.startCoordinates && this.resizeHandleType) {
+            this.isResizing = false;
+            this.startCoordinates = null;
+            this.resizeHandleType = null;
+         }
+        else {
             this.isdrawing = false;
             this.isDragging = false;
         }

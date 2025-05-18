@@ -2,12 +2,12 @@ import { Handle, ResizeHandleEnum } from "../types/types";
 import Shape from "./shape";
 
 class Rectangle extends Shape {
-    
+
 
 
     // We'll use class to hold the properties such as fillstyle, strokestyle, linewidth, etc.......
     constructor(x: number, y: number, width: number, height: number) {
-        super(x,y,width, height, "Rectangle")
+        super(x, y, width, height, "Rectangle")
     }
 
     draw(context: CanvasRenderingContext2D): void {
@@ -15,7 +15,7 @@ class Rectangle extends Shape {
     }
 
     isSelected(x: number, y: number): boolean {
-        
+
         const minX = Math.min(this.x, this.x + this.width);
         const maxX = Math.max(this.x, this.x + this.width);
         const minY = Math.min(this.y, this.y + this.height);
@@ -25,16 +25,59 @@ class Rectangle extends Shape {
     }
 
     getResizeHandles(selectionBuffer: number): Handle[] {
-        const x = Math.min(this.x, this.x + this.width) - selectionBuffer - this.resizeHandleSize/2;
-        const y = Math.min(this.y, this.y + this.height) - selectionBuffer - this.resizeHandleSize/2;
+        const x = Math.min(this.x, this.x + this.width) - selectionBuffer - this.resizeHandleSize / 2;
+        const y = Math.min(this.y, this.y + this.height) - selectionBuffer - this.resizeHandleSize / 2;
         const width = Math.abs(this.width) + 2 * selectionBuffer;
         const height = Math.abs(this.height) + 2 * selectionBuffer;
         return [
             { type: ResizeHandleEnum.Top_Left, x: x, y: y, width: this.resizeHandleSize, height: this.resizeHandleSize },
             { type: ResizeHandleEnum.Top_right, x: x + width, y: y, width: this.resizeHandleSize, height: this.resizeHandleSize },
             { type: ResizeHandleEnum.Bottom_left, x: x, y: y + height, width: this.resizeHandleSize, height: this.resizeHandleSize },
-            { type: ResizeHandleEnum.Bottom_right, x: x + width, y: y + height, width: this.resizeHandleSize, height: this.resizeHandleSize}
-            ]
+            { type: ResizeHandleEnum.Bottom_right, x: x + width, y: y + height, width: this.resizeHandleSize, height: this.resizeHandleSize }
+        ]
+    }
+
+    resizeShape(startx: number, startY: number, currentX: number, currentY: number, handleType: ResizeHandleEnum): void {
+
+        const changedX = currentX - startx;
+        const changedY = currentY - startY;
+
+        const originalLeft = Math.min(this.x, this.x + this.width);
+        const originalRight = Math.max(this.x, this.x + this.width);
+        const originalTOP = Math.min(this.y, this.y + this.height);
+        const originalBottom = Math.max(this.y, this.y + this.height);
+
+        let newLeft = originalLeft;
+        let newTop = originalTOP;
+        let newRight = originalRight;
+        let newBottom = originalBottom;
+
+
+        switch (handleType) {
+            case ResizeHandleEnum.Top_Left:
+                newLeft = originalLeft + changedX;
+                newTop = originalTOP + changedY;
+                break;
+            case ResizeHandleEnum.Top_right:
+                newRight = originalRight + changedX;
+                newTop = originalTOP + changedY;
+                break;
+            case ResizeHandleEnum.Bottom_left:
+                newBottom = originalBottom + changedY;
+                newLeft = originalLeft + changedX;
+                break;
+            case ResizeHandleEnum.Bottom_right:
+                newBottom = originalBottom + changedY;
+                newRight = originalRight + changedX;
+                break;
+            default:
+                return;
+        }
+
+        this.x = newLeft;
+        this.y = newTop;
+        this.width = newRight - newLeft;
+        this.height = newBottom - newTop;
     }
 }
 
