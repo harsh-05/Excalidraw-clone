@@ -6,7 +6,7 @@ class Line extends Shape {
     constructor(x: number, y: number, width: number, height: number) {
         super(x, y, width, height, "Line");
     }
-    
+
     draw(context: CanvasRenderingContext2D): void {
         const endx = (this.x) + this.width;
         const endy = (this.y) + this.height;
@@ -18,7 +18,7 @@ class Line extends Shape {
     }
 
     isSelected(x: number, y: number): boolean {
-       
+
         const minX = Math.min(this.x, this.x + this.width);
         const maxX = Math.max(this.x, this.x + this.width);
         const minY = Math.min(this.y, this.y + this.height);
@@ -28,17 +28,72 @@ class Line extends Shape {
     }
 
     getResizeHandles(selectionBuffer: number): Handle[] {
-            const x = Math.min(this.x, this.x + this.width) - selectionBuffer - this.resizeHandleSize/2;
-            const y = Math.min(this.y, this.y + this.height) - selectionBuffer - this.resizeHandleSize/2;
-            const width = Math.abs(this.width) + 2 * selectionBuffer;
-            const height = Math.abs(this.height) + 2 * selectionBuffer;
-            return [
-                { type: ResizeHandleEnum.Top_Left, x: x, y: y, width: this.resizeHandleSize, height: this.resizeHandleSize },
-                { type: ResizeHandleEnum.Top_right, x: x + width, y: y, width: this.resizeHandleSize, height: this.resizeHandleSize },
-                { type: ResizeHandleEnum.Bottom_left, x: x, y: y + height, width: this.resizeHandleSize, height: this.resizeHandleSize },
-                { type: ResizeHandleEnum.Bottom_right, x: x + width, y: y + height, width: this.resizeHandleSize, height: this.resizeHandleSize}
-                ]
+        const x = Math.min(this.x, this.x + this.width) - selectionBuffer - this.resizeHandleSize / 2;
+        const y = Math.min(this.y, this.y + this.height) - selectionBuffer - this.resizeHandleSize / 2;
+        const width = Math.abs(this.width) + 2 * selectionBuffer;
+        const height = Math.abs(this.height) + 2 * selectionBuffer;
+        return [
+            { type: ResizeHandleEnum.Top_Left, x: x, y: y, width: this.resizeHandleSize, height: this.resizeHandleSize },
+            { type: ResizeHandleEnum.Top_right, x: x + width, y: y, width: this.resizeHandleSize, height: this.resizeHandleSize },
+            { type: ResizeHandleEnum.Bottom_left, x: x, y: y + height, width: this.resizeHandleSize, height: this.resizeHandleSize },
+            { type: ResizeHandleEnum.Bottom_right, x: x + width, y: y + height, width: this.resizeHandleSize, height: this.resizeHandleSize }
+        ]
+    }
+
+
+
+    resizeShape(mouseX: number, mouseY: number, handleType: ResizeHandleEnum, buffer: number, initialCoords: { x1: number, y1: number, x2: number, y2: number }): void {
+        const { x1, y1, x2, y2 } = initialCoords;
+
+
+        let rawX = mouseX, rawY = mouseY;
+        switch (handleType) {
+            case ResizeHandleEnum.Top_Left:
+                rawX = mouseX + buffer;
+                rawY = mouseY + buffer;
+                break;
+            case ResizeHandleEnum.Top_right:
+                rawX = mouseX - buffer;
+                rawY = mouseY + buffer;
+                break;
+            case ResizeHandleEnum.Bottom_left:
+                rawX = mouseX + buffer;
+                rawY = mouseY - buffer;
+                break;
+            case ResizeHandleEnum.Bottom_right:
+                rawX = mouseX - buffer;
+                rawY = mouseY - buffer;
+                break;
         }
+
+
+        let newX1 = x1, newY1 = y1, newX2 = x2, newY2 = y2;
+        switch (handleType) {
+            case ResizeHandleEnum.Top_Left:
+                newX1 = rawX;
+                newY1 = rawY;
+                break;
+            case ResizeHandleEnum.Top_right:
+                newX2 = rawX;
+                newY1 = rawY;
+                break;
+            case ResizeHandleEnum.Bottom_left:
+                newX1 = rawX;
+                newY2 = rawY;
+                break;
+            case ResizeHandleEnum.Bottom_right:
+                newX2 = rawX;
+                newY2 = rawY;
+                break;
+        }
+
+
+        this.x = newX1;
+        this.y = newY1;
+        this.width = newX2 - newX1;
+        this.height = newY2 - newY1;
+
+    }
 }
 
 export default Line
