@@ -37,8 +37,8 @@ class Rectangle extends Shape {
         ]
     }
 
-    resizeShape(mouseX: number, mouseY: number, handleType: ResizeHandleEnum, buffer: number): void {
-        const { x1, y1, x2, y2 } = this.getResizeStart();
+    resizeShape(mouseX: number, mouseY: number, handleType: ResizeHandleEnum, buffer: number, initialCoords: { x1: number, y1: number, x2: number, y2: number }): void {
+        const { x1, y1, x2, y2 } = initialCoords;
 
        
         let rawX = mouseX, rawY = mouseY;

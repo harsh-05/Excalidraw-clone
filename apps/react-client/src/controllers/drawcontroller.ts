@@ -33,6 +33,7 @@ export class DrawController {
     //Resizing properties......
     private isResizing: boolean = false;
     private resizeHandleType: ResizeHandleEnum | null = null;
+    private resizeShapeCoordinates: { x1: number, x2: number, y1: number, y2: number } | null = null;
 
     // Properties for drawing a new shapes......
     private shapes: Shape[] = [];
@@ -114,8 +115,13 @@ export class DrawController {
             if (handle !== null) {
                 this.isResizing = true;
                 this.resizeHandleType = handle;
-                this.selectedShape.beginResize();
-              
+
+                const x1 = Math.min(this.selectedShape.x, this.selectedShape.x + this.selectedShape.width);
+                const x2 = Math.max(this.selectedShape.x, this.selectedShape.x + this.selectedShape.width);
+                const y1 = Math.min(this.selectedShape.y, this.selectedShape.y + this.selectedShape.height);
+                const y2 = Math.max(this.selectedShape.y, this.selectedShape.y + this.selectedShape.height);
+
+                this.resizeShapeCoordinates = { x1, y1, x2, y2 };
                 return;
             }
         }
@@ -177,8 +183,8 @@ export class DrawController {
 
                 this.draw();
             }
-        } else if (this.isResizing && this.resizeHandleType !== null && this.selectedShape) {
-            this.selectedShape.resizeShape(currentPos.x, currentPos.y, this.resizeHandleType, this.buffer);
+        } else if (this.isResizing && this.resizeHandleType !== null && this.selectedShape && this.resizeShapeCoordinates) {
+            this.selectedShape.resizeShape(currentPos.x, currentPos.y, this.resizeHandleType, this.buffer, this.resizeShapeCoordinates);
             this.draw();
         }
     }
