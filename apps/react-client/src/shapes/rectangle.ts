@@ -37,47 +37,57 @@ class Rectangle extends Shape {
         ]
     }
 
-    resizeShape(startx: number, startY: number, currentX: number, currentY: number, handleType: ResizeHandleEnum): void {
+    resizeShape(mouseX: number, mouseY: number, handleType: ResizeHandleEnum, buffer: number): void {
+        const { x1, y1, x2, y2 } = this.getResizeStart();
 
-        const changedX = currentX - startx;
-        const changedY = currentY - startY;
-
-        const originalLeft = Math.min(this.x, this.x + this.width);
-        const originalRight = Math.max(this.x, this.x + this.width);
-        const originalTOP = Math.min(this.y, this.y + this.height);
-        const originalBottom = Math.max(this.y, this.y + this.height);
-
-        let newLeft = originalLeft;
-        let newTop = originalTOP;
-        let newRight = originalRight;
-        let newBottom = originalBottom;
-
-
+       
+        let rawX = mouseX, rawY = mouseY;
         switch (handleType) {
             case ResizeHandleEnum.Top_Left:
-                newLeft = originalLeft + changedX;
-                newTop = originalTOP + changedY;
+                rawX = mouseX + buffer;
+                rawY = mouseY + buffer;
                 break;
             case ResizeHandleEnum.Top_right:
-                newRight = originalRight + changedX;
-                newTop = originalTOP + changedY;
+                rawX = mouseX - buffer;
+                rawY = mouseY + buffer;
                 break;
             case ResizeHandleEnum.Bottom_left:
-                newBottom = originalBottom + changedY;
-                newLeft = originalLeft + changedX;
+                rawX = mouseX + buffer;
+                rawY = mouseY - buffer;
                 break;
             case ResizeHandleEnum.Bottom_right:
-                newBottom = originalBottom + changedY;
-                newRight = originalRight + changedX;
+                rawX = mouseX - buffer;
+                rawY = mouseY - buffer;
                 break;
-            default:
-                return;
         }
 
-        this.x = newLeft;
-        this.y = newTop;
-        this.width = newRight - newLeft;
-        this.height = newBottom - newTop;
+       
+        let newX1 = x1, newY1 = y1, newX2 = x2, newY2 = y2;
+        switch (handleType) {
+            case ResizeHandleEnum.Top_Left:
+                newX1 = rawX;
+                newY1 = rawY;
+                break;
+            case ResizeHandleEnum.Top_right:
+                newX2 = rawX;
+                newY1 = rawY;
+                break;
+            case ResizeHandleEnum.Bottom_left:
+                newX1 = rawX;
+                newY2 = rawY;
+                break;
+            case ResizeHandleEnum.Bottom_right:
+                newX2 = rawX;
+                newY2 = rawY;
+                break;
+        }
+
+       
+        this.x = newX1;
+        this.y = newY1;
+        this.width = newX2 - newX1;
+        this.height = newY2 - newY1;
+        
     }
 }
 

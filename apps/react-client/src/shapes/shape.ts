@@ -8,6 +8,28 @@ abstract class Shape {
    type: shapeType
 
 
+   private _resizeStart?: {
+      x1: number, y1: number,
+      x2: number, y2: number
+   };
+
+   beginResize() {
+      // compute true top-left (x1,y1) and bottom-right (x2,y2)
+      const x1 = Math.min(this.x, this.x + this.width);
+      const y1 = Math.min(this.y, this.y + this.height);
+      const x2 = Math.max(this.x, this.x + this.width);
+      const y2 = Math.max(this.y, this.y + this.height);
+
+      this._resizeStart = { x1, y1, x2, y2 };
+    }
+   
+   protected getResizeStart() {
+      if (!this._resizeStart) {
+         throw new Error("beginResize() must be called before resizeShape()");
+      }
+      return this._resizeStart;
+    }
+
    constructor(x: number, y: number, width: number, height: number, type: shapeType) {
       this.x = x;
       this.y = y;
@@ -26,7 +48,7 @@ abstract class Shape {
 
    abstract getResizeHandles(selectionBuffer: number): Handle[];
 
-   abstract resizeShape(startx: number, startY: number, currentX: number, currentY: number, handleType: ResizeHandleEnum): void;
+   abstract resizeShape(mouseX: number, mouseY: number, handleType: ResizeHandleEnum, buffer: number): void;
 
    detectResizeHandle(x: number, y: number, selectionBuffer: number): ResizeHandleEnum | null {
       const handles = this.getResizeHandles(selectionBuffer);

@@ -114,7 +114,8 @@ export class DrawController {
             if (handle !== null) {
                 this.isResizing = true;
                 this.resizeHandleType = handle;
-                this.startCoordinates = { startX: x, startY: y };
+                this.selectedShape.beginResize();
+              
                 return;
             }
         }
@@ -176,9 +177,8 @@ export class DrawController {
 
                 this.draw();
             }
-        } else if (this.isResizing && this.resizeHandleType !== null && this.startCoordinates && this.selectedShape) {
-            this.selectedShape.resizeShape(this.startCoordinates.startX, this.startCoordinates.startY, currentPos.x, currentPos.y, this.resizeHandleType);
-            this.startCoordinates = { startX: currentPos.x, startY: currentPos.y };
+        } else if (this.isResizing && this.resizeHandleType !== null && this.selectedShape) {
+            this.selectedShape.resizeShape(currentPos.x, currentPos.y, this.resizeHandleType, this.buffer);
             this.draw();
         }
     }
@@ -214,9 +214,8 @@ export class DrawController {
             this.startCoordinates = null;
 
             this.draw();
-        } else if (this.isResizing && this.startCoordinates && this.resizeHandleType) {
+        } else if (this.isResizing && this.resizeHandleType) {
             this.isResizing = false;
-            this.startCoordinates = null;
             this.resizeHandleType = null;
          }
         else {
