@@ -6,6 +6,9 @@ import { useEffect, useRef, useState } from "react";
 //import useDrawHook from "./Hooks/useDrawHook";
 import { DrawController } from "./controllers/drawcontroller";
 import { shapeType } from "@repo/schemazod";
+import { SelectTools } from "./types/types";
+import Tools from "./Components/Tools";
+
 
 function App() {
   const [dimensions, setDimensions] = useState({
@@ -13,7 +16,7 @@ function App() {
     height: window.innerHeight,
   });
 
-  const [selectedtool, setSelectedTool] = useState<shapeType | "Select" | null>(null);
+  const [selectedtool, setSelectedTool] = useState< SelectTools | null>(null);
 
   const canvasref = useRef<HTMLCanvasElement| null>(null);
   const drawController = useRef<DrawController| null>(null);
@@ -49,14 +52,14 @@ function App() {
     };
   }, []);
 
-  function handletoolSelect(tool: shapeType | "Select" | null) {
-    setSelectedTool(tool);
-    drawController.current?.setSelectedTool(tool);
-  }
+  // function handletoolSelect(tool: shapeType | "Select" | null) {
+  //   setSelectedTool(tool);
+  //   drawController.current?.setSelectedTool(tool);
+  // }
 
   return (
     <>
-      <div className="fixed top-10 left-1/2 transform -translate-x-1/2 p-2 flex justify-center gap-5 bg-red-300">
+      {/* <div className="fixed top-10 left-1/2 transform -translate-x-1/2 p-2 flex justify-center gap-5 bg-red-300">
         <button
           className={`${selectedtool === "Select" ? "bg-gray-500" : ""}`}
           onClick={() => {
@@ -97,7 +100,8 @@ function App() {
         >
           Quad
         </button>
-      </div>
+      </div> */}
+     <Tools selectedtool={selectedtool} setSelectedTool={setSelectedTool} drawController={drawController}></Tools>
       <canvas
         ref={canvasref}
         width={dimensions.width}

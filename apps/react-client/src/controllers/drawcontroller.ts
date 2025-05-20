@@ -4,7 +4,7 @@ import Rectangle from "../shapes/rectangle";
 import Circle from "../shapes/circle";
 import Line from "../shapes/line";
 import Quad from "../shapes/quad";
-import { ResizeHandleEnum } from "../types/types";
+import { ResizeHandleEnum, SelectTools } from "../types/types";
 
 
 
@@ -20,7 +20,7 @@ const shapeConstructors: Record<shapeType, ShapeConstructor> = {
 }
 
 
-type Tool = shapeType | "Select";
+//type Tool = shapeType | "Select";
 
 export class DrawController {
 
@@ -47,7 +47,7 @@ export class DrawController {
     private offsetCoords: { offsetX: number, offsetY: number } | null = null;
     
 
-    private selectedTool: Tool | null = null;
+    private selectedTool: SelectTools | null = null;
 
 
     // Creating the Bound mouse events functions, do read about "this" and "bind" online or on google docs...
@@ -170,7 +170,7 @@ export class DrawController {
             this.selectedShape.x = currentPos.x - this.offsetCoords.offsetX;
             this.selectedShape.y = currentPos.y - this.offsetCoords.offsetY;
             this.draw();
-        } else if (this.isdrawing && this.selectedTool !== "Select" && this.selectedTool !== null && this.startCoordinates) {
+        } else if (this.isdrawing && this.selectedTool !== "Select" && this.selectedTool !== "Eraser" && this.selectedTool !== null && this.startCoordinates) {
 
             // If we are creating the shape then this
             const width = currentPos.x - this.startCoordinates.startX;
@@ -197,7 +197,7 @@ export class DrawController {
             this.draw();
 
         }
-        else if (this.isdrawing && this.startCoordinates && this.selectedTool !== "Select" && this.selectedTool !== null) {
+        else if (this.isdrawing && this.startCoordinates && this.selectedTool !== "Select" && this.selectedTool !== "Eraser" && this.selectedTool !== null) {
            
             const currentPos = this.getPosition(event);
             const width = currentPos.x - this.startCoordinates.startX;
@@ -288,7 +288,7 @@ export class DrawController {
         this.draw();
     }
 
-    public setSelectedTool(tool: shapeType | "Select" | null) {
+    public setSelectedTool(tool: SelectTools | null) {
         this.isDragging = false;
         this.selectedShape = null;
         this.offsetCoords = null;

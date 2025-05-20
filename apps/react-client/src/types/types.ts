@@ -1,3 +1,8 @@
+import { shapeType } from "@repo/schemazod"
+
+export type SelectTools = shapeType | "Select" | "Eraser";
+
+
 
 
 export enum ResizeHandleEnum {
