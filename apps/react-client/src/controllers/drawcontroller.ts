@@ -110,6 +110,16 @@ export class DrawController {
         const { x, y } = this.getPosition(event);
 
 
+        // handling the eraser functionality here while clicked.
+        if (this.selectedTool === "Eraser") {
+           
+            for (let i = this.shapes.length - 1; i >= 0; i++) {
+
+            }
+
+            return;
+        }
+
         if (this.selectedTool === "Select" && this.selectedShape !== null) {
             const handle = this.selectedShape.detectResizeHandle(x, y, this.buffer);
             if (handle !== null) {
