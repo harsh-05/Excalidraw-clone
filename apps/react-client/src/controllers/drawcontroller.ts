@@ -35,6 +35,11 @@ export class DrawController {
     private resizeHandleType: ResizeHandleEnum | null = null;
     private resizeShapeCoordinates: { x1: number, x2: number, y1: number, y2: number } | null = null;
 
+    // Property of Erasing the shapes....
+
+
+    private isErasing: boolean = false;
+
     // Properties for drawing a new shapes......
     private shapes: Shape[] = [];
     private previewShape: Shape | null = null;
@@ -112,15 +117,18 @@ export class DrawController {
 
         // handling the eraser functionality here while clicked.
         if (this.selectedTool === "Eraser") {
+            this.isErasing = true;
            
             for (let i = this.shapes.length - 1; i >= 0; i--) {
                 if (this.shapes[i].hitDetectionEraser(x, y, this.ctx)) {
                    
                     this.shapes.splice(i, 1);
                     this.draw();
-                    return;
+                    break;
                 }
             }
+
+            return;
 
         }
 
@@ -145,6 +153,7 @@ export class DrawController {
         this.offsetCoords = null;
         this.resizeHandleType = null;
         this.isResizing = false;
+        this.isErasing = false;
        
 
         if (this.selectedTool === "Select") {
@@ -200,7 +209,7 @@ export class DrawController {
         } else if (this.isResizing && this.resizeHandleType !== null && this.selectedShape && this.resizeShapeCoordinates) {
             this.selectedShape.resizeShape(currentPos.x, currentPos.y, this.resizeHandleType, this.buffer, this.resizeShapeCoordinates);
             this.draw();
-        } else if (this.selectedTool === "Eraser") {
+        } else if (this.selectedTool === "Eraser" && this.isErasing) {
             for (let i = this.shapes.length - 1; i >= 0; i--) {
                 if (this.shapes[i].hitDetectionEraser(currentPos.x, currentPos.y, this.ctx)) {
 
@@ -246,6 +255,8 @@ export class DrawController {
         } else if (this.isResizing && this.resizeHandleType) {
             this.isResizing = false;
             this.resizeHandleType = null;
+        } else if (this.isErasing) {
+            this.isErasing = false;
          }
         else {
             this.isdrawing = false;

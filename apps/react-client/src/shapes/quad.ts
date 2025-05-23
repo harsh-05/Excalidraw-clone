@@ -7,6 +7,23 @@ class Quad extends Shape {
         super(x, y, width, height, "Quad")
     }
 
+    protected buildpath(): void {
+        const p = new Path2D();
+        const point1 = { x: (this.x + this.width / 2), y: this.y };
+        const point2 = { x: (this.x + this.width), y: (this.y + this.height / 2) };
+        const point3 = { x: (this.x + this.width / 2), y: this.y + this.height };
+        const point4 = { x: (this.x), y: this.y + this.height / 2 };
+
+        p.moveTo(point1.x, point1.y);
+        p.lineTo(point2.x, point2.y);
+        p.lineTo(point3.x, point3.y);
+        p.lineTo(point4.x, point4.y);
+        p.closePath();
+
+        this.path2d = p;
+
+    }
+
     draw(context: CanvasRenderingContext2D): void {
         // (width /2, starty)-----> but the issue here is (width /2 is the length, we have to add the starting point too)
 
@@ -105,6 +122,8 @@ class Quad extends Shape {
         this.y = newY1;
         this.width = newX2 - newX1;
         this.height = newY2 - newY1;
+
+        this.buildpath();
 
     }
 
