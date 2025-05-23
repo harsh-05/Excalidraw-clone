@@ -7,6 +7,18 @@ class Line extends Shape {
         super(x, y, width, height, "Line");
     }
 
+    protected buildpath(): void {
+        const p = new Path2D();
+        
+        const endx = (this.x) + this.width;
+        const endy = (this.y) + this.height;
+
+        p.moveTo(this.x, this.y);
+        p.lineTo(endx, endy);
+
+        this.path2d = p;
+    }
+
     draw(context: CanvasRenderingContext2D): void {
         const endx = (this.x) + this.width;
         const endy = (this.y) + this.height;
@@ -92,6 +104,9 @@ class Line extends Shape {
         this.y = newY1;
         this.width = newX2 - newX1;
         this.height = newY2 - newY1;
+
+        this.buildpath();
+        
 
     }
 }
