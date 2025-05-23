@@ -7,6 +7,7 @@ abstract class Shape {
    height: number;
    type: shapeType
 
+   protected path2d!: Path2D;
 
    constructor(x: number, y: number, width: number, height: number, type: shapeType) {
       this.x = x;
@@ -14,6 +15,14 @@ abstract class Shape {
       this.height = height;
       this.width = width;
       this.type = type;
+      this.buildpath();
+   }
+
+   protected abstract buildpath(): void
+
+   hitDetectionEraser(x: number, y: number, ctx: CanvasRenderingContext2D): boolean {
+      if (ctx.isPointInPath(this.path2d, x, y) || ctx.isPointInStroke(this.path2d, x, y)) return true;
+      else return false;
    }
 
    abstract draw(context: CanvasRenderingContext2D): void;

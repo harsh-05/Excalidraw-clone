@@ -10,6 +10,12 @@ class Rectangle extends Shape {
         super(x, y, width, height, "Rectangle")
     }
 
+    protected buildpath(): void {
+        const p = new Path2D();
+        p.rect(this.x, this.y, this.width, this.height);
+        this.path2d = p;
+    }
+
     draw(context: CanvasRenderingContext2D): void {
         context.strokeRect(this.x, this.y, this.width, this.height);
     }
@@ -87,7 +93,8 @@ class Rectangle extends Shape {
         this.y = newY1;
         this.width = newX2 - newX1;
         this.height = newY2 - newY1;
-        
+
+        this.buildpath();
     }
 }
 

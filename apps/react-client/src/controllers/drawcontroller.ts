@@ -113,11 +113,15 @@ export class DrawController {
         // handling the eraser functionality here while clicked.
         if (this.selectedTool === "Eraser") {
            
-            for (let i = this.shapes.length - 1; i >= 0; i++) {
-
+            for (let i = this.shapes.length - 1; i >= 0; i--) {
+                if (this.shapes[i].hitDetectionEraser(x, y, this.ctx)) {
+                   
+                    this.shapes.splice(i, 1);
+                    this.draw();
+                    return;
+                }
             }
 
-            return;
         }
 
         if (this.selectedTool === "Select" && this.selectedShape !== null) {
@@ -196,6 +200,15 @@ export class DrawController {
         } else if (this.isResizing && this.resizeHandleType !== null && this.selectedShape && this.resizeShapeCoordinates) {
             this.selectedShape.resizeShape(currentPos.x, currentPos.y, this.resizeHandleType, this.buffer, this.resizeShapeCoordinates);
             this.draw();
+        } else if (this.selectedTool === "Eraser") {
+            for (let i = this.shapes.length - 1; i >= 0; i--) {
+                if (this.shapes[i].hitDetectionEraser(currentPos.x, currentPos.y, this.ctx)) {
+
+                    this.shapes.splice(i, 1);
+                    this.draw();
+                    return;
+                }
+            }
         }
     }
 

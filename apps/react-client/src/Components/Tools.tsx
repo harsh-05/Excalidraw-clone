@@ -61,7 +61,7 @@ export default function Tools({
             handletoolSelect("Eraser", setSelectedTool, drawController);
           }}
         >
-          Quad
+          Eraser
         </button>
       </div>
     );
