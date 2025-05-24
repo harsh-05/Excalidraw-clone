@@ -3,6 +3,7 @@ import { DrawController } from "../controllers/drawcontroller";
 import { SelectTools } from "../types/types";
 import { TfiLayoutLineSolid } from "react-icons/tfi";
 import { FaMousePointer } from "react-icons/fa";
+import { LuMousePointer } from "react-icons/lu";
 
 
 type ToolsProps = {
@@ -17,17 +18,17 @@ export default function Tools({
   drawController
 }: ToolsProps) {
     return (
-      <div className="fixed top-10 left-1/2 transform -translate-x-1/2 p-2 flex justify-center gap-5 bg-red-300">
+      <div className="fixed top-10 left-1/2 transform -translate-x-1/2 p-2 flex justify-center gap-5 shadow-lg rounded-lg ">
         <button
-          className={`${selectedtool === "Select" ? "bg-gray-500" : ""}`}
+          className={`${selectedtool === "Select" ? "bg-purple-300" : ""} text-xl hover:bg-purple-100 rounded-md p-2`}
           onClick={() => {
             handletoolSelect("Select", setSelectedTool, drawController);
           }}
         >
-          <FaMousePointer />
+          <LuMousePointer />
         </button>
         <button
-          className={`${selectedtool === "Circle" ? "bg-gray-500" : ""}`}
+          className={`${selectedtool === "Circle" ? "bg-purple-300" : ""} text-xl hover:bg-purple-100 rounded-md p-2`}
           onClick={() => {
             handletoolSelect("Circle", setSelectedTool, drawController);
           }}
@@ -35,7 +36,7 @@ export default function Tools({
           <PiCircle />
         </button>
         <button
-          className={`${selectedtool === "Rectangle" ? "bg-gray-500" : ""}`}
+          className={`${selectedtool === "Rectangle" ? "bg-purple-300" : ""} text-xl hover:bg-purple-100 rounded-md p-2`}
           onClick={() => {
             handletoolSelect("Rectangle", setSelectedTool, drawController);
           }}
@@ -43,7 +44,7 @@ export default function Tools({
           <PiRectangle />
         </button>
         <button
-          className={`${selectedtool === "Line" ? "bg-gray-500" : ""}`}
+          className={`${selectedtool === "Line" ? "bg-purple-300" : ""} text-xl hover:bg-purple-100 rounded-md p-2`}
           onClick={() => {
             handletoolSelect("Line", setSelectedTool, drawController);
           }}
@@ -51,7 +52,7 @@ export default function Tools({
           <TfiLayoutLineSolid />
         </button>
         <button
-          className={`${selectedtool === "Quad" ? "bg-gray-500" : ""}`}
+          className={`${selectedtool === "Quad" ? "bg-purple-300" : ""} text-xl hover:bg-purple-100 rounded-md p-2`}
           onClick={() => {
             handletoolSelect("Quad", setSelectedTool, drawController);
           }}
@@ -59,7 +60,7 @@ export default function Tools({
           <PiDiamond />
         </button>
         <button
-          className={`${selectedtool === "Eraser" ? "bg-gray-500" : ""}`}
+          className={`${selectedtool === "Eraser" ? "bg-purple-300" : ""} text-xl hover:bg-purple-100 rounded-md p-2`}
           onClick={() => {
             handletoolSelect("Eraser", setSelectedTool, drawController);
           }}
