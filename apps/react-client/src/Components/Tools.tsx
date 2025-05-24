@@ -2,7 +2,6 @@ import { PiCircle, PiDiamond, PiEraser, PiRectangle } from "react-icons/pi";
 import { DrawController } from "../controllers/drawcontroller";
 import { SelectTools } from "../types/types";
 import { TfiLayoutLineSolid } from "react-icons/tfi";
-import { FaMousePointer } from "react-icons/fa";
 import { LuMousePointer } from "react-icons/lu";
 
 
@@ -18,7 +17,7 @@ export default function Tools({
   drawController
 }: ToolsProps) {
     return (
-      <div className="fixed top-10 left-1/2 transform -translate-x-1/2 p-2 flex justify-center gap-5 shadow-lg rounded-lg ">
+      <div className="fixed top-10 left-1/2 transform -translate-x-1/2 p-2 flex justify-center gap-5 shadow-lg rounded-lg bg-white ">
         <button
           className={`${selectedtool === "Select" ? "bg-purple-300" : ""} text-xl hover:bg-purple-100 rounded-md p-2`}
           onClick={() => {
