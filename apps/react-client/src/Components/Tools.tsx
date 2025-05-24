@@ -1,5 +1,8 @@
+import { PiCircle, PiDiamond, PiEraser, PiRectangle } from "react-icons/pi";
 import { DrawController } from "../controllers/drawcontroller";
 import { SelectTools } from "../types/types";
+import { TfiLayoutLineSolid } from "react-icons/tfi";
+import { FaMousePointer } from "react-icons/fa";
 
 
 type ToolsProps = {
@@ -21,7 +24,7 @@ export default function Tools({
             handletoolSelect("Select", setSelectedTool, drawController);
           }}
         >
-          Select
+          <FaMousePointer />
         </button>
         <button
           className={`${selectedtool === "Circle" ? "bg-gray-500" : ""}`}
@@ -29,7 +32,7 @@ export default function Tools({
             handletoolSelect("Circle", setSelectedTool, drawController);
           }}
         >
-          Circle
+          <PiCircle />
         </button>
         <button
           className={`${selectedtool === "Rectangle" ? "bg-gray-500" : ""}`}
@@ -37,7 +40,7 @@ export default function Tools({
             handletoolSelect("Rectangle", setSelectedTool, drawController);
           }}
         >
-          Rectangle
+          <PiRectangle />
         </button>
         <button
           className={`${selectedtool === "Line" ? "bg-gray-500" : ""}`}
@@ -45,7 +48,7 @@ export default function Tools({
             handletoolSelect("Line", setSelectedTool, drawController);
           }}
         >
-          Line
+          <TfiLayoutLineSolid />
         </button>
         <button
           className={`${selectedtool === "Quad" ? "bg-gray-500" : ""}`}
@@ -53,7 +56,7 @@ export default function Tools({
             handletoolSelect("Quad", setSelectedTool, drawController);
           }}
         >
-          Quad
+          <PiDiamond />
         </button>
         <button
           className={`${selectedtool === "Eraser" ? "bg-gray-500" : ""}`}
@@ -61,7 +64,7 @@ export default function Tools({
             handletoolSelect("Eraser", setSelectedTool, drawController);
           }}
         >
-          Eraser
+          <PiEraser />
         </button>
       </div>
     );
