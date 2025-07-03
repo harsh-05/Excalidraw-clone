@@ -5,10 +5,10 @@ import Tools from "./Components/Tools";
 
 
 function App() {
-  const [dimensions, setDimensions] = useState({
-    width: window.innerWidth,
-    height: window.innerHeight,
-  });
+  // const [dimensions, setDimensions] = useState({
+  //   width: window.innerWidth,
+  //   height: window.innerHeight,
+  // });
 
   const [selectedtool, setSelectedTool] = useState< SelectTools | null>(null);
 
@@ -22,7 +22,7 @@ function App() {
       const width = window.innerWidth;
       const height = window.innerHeight;
 
-      setDimensions(() => ({ width, height, }));
+     // setDimensions(() => ({ width, height, }));
       drawController.current?.setDimension(width, height);
     }
 
@@ -34,7 +34,10 @@ function App() {
   useEffect(() => {
     if (canvasref.current) {
       drawController.current = new DrawController(canvasref.current);
-      drawController.current.setDimension(dimensions.width, dimensions.height);
+      drawController.current.setDimension(
+        window.innerWidth,
+        window.innerHeight
+      );
     }
 
     return () => {
@@ -48,8 +51,6 @@ function App() {
      <Tools selectedtool={selectedtool} setSelectedTool={setSelectedTool} drawController={drawController}></Tools>
       <canvas
         ref={canvasref}
-        width={dimensions.width}
-        height={dimensions.height}
       ></canvas>
     </>
   );

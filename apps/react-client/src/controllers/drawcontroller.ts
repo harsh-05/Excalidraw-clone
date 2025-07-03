@@ -120,8 +120,9 @@ export class DrawController {
             this.isErasing = true;
            
             for (let i = this.shapes.length - 1; i >= 0; i--) {
+                console.log("inside loop mousedown");
                 if (this.shapes[i].hitDetectionEraser(x, y, this.ctx)) {
-                   
+                    console.log("Detected in mouseDown");
                     this.shapes.splice(i, 1);
                     this.draw();
                     break;
@@ -211,8 +212,9 @@ export class DrawController {
             this.draw();
         } else if (this.selectedTool === "Eraser" && this.isErasing) {
             for (let i = this.shapes.length - 1; i >= 0; i--) {
+                console.log("inside loop mousemove");
                 if (this.shapes[i].hitDetectionEraser(currentPos.x, currentPos.y, this.ctx)) {
-
+                    console.log("Detected in mousemove");
                     this.shapes.splice(i, 1);
                     this.draw();
                     return;
@@ -317,9 +319,17 @@ export class DrawController {
 
 
     public setDimension(width: number, height: number) {
+        
         this.canvas.width = width;
         this.canvas.height = height;
+
+        this.canvas.style.width = `${width}px`;
+        this.canvas.style.height = `${height}px`;
+
+       
+
         this.draw();
+        console.log("Draw function called!");
     }
 
     public setSelectedTool(tool: SelectTools | null) {
