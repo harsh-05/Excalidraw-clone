@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { DrawController } from "./controllers/drawcontroller";
 import { SelectTools } from "./types/types";
 import Tools from "./Components/Tools";
+import SideTools from "./Components/SideTools";
 
 
 function App() {
@@ -48,6 +49,7 @@ function App() {
   
   return (
     <>
+      <SideTools></SideTools>
      <Tools selectedtool={selectedtool} setSelectedTool={setSelectedTool} drawController={drawController}></Tools>
       <canvas
         ref={canvasref}
