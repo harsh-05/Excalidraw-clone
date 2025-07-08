@@ -3,9 +3,8 @@ import { useState } from "react";
 export default function SideTools() {
   const [inputVal, setInputVal] = useState(100);
 
- 
   return (
-    <aside className="fixed left-3 top-1/2 -translate-y-1/2 h-4/5 w-[13.5%] p-3 rounded-md bg-white shadow-md flex flex-col gap-4">
+    <aside className="fixed left-3 top-1/2 -translate-y-1/2 h-[36rem] overflow-y-auto scroll w-[12.5rem] p-3 rounded-md bg-white shadow-md flex flex-col gap-4">
       <div className="">
         <h3 className="text-[0.724rem] mb-2 font-normal font-sans tracking-wide">
           Stroke
@@ -269,16 +268,126 @@ export default function SideTools() {
         <h3 className="text-[0.724rem]  font-normal font-sans tracking-wide">
           Opacity
         </h3>
-        <input
-          onChange={(e) => setInputVal(+e.target.value)}
-          type="range"
-          min={"0"}
-          max={"100"}
-          step={"10"}
-          value={inputVal}
-          className=" slider "
-          style={{ "--slider-progress": `${inputVal}%` } as React.CSSProperties}
-        />
+        <div className="relative">
+          <input
+            onChange={(e) => setInputVal(+e.target.value)}
+            type="range"
+            min={"0"}
+            max={"100"}
+            step={"10"}
+            value={inputVal}
+            className=" slider "
+            style={
+              { "--slider-progress": `${inputVal}%` } as React.CSSProperties
+            }
+          />
+          <div className="text-[0.724rem] font-normal font-sans absolute top-6 right-0">
+            {inputVal}
+          </div>
+          <div className="text-[0.724rem]  font-normal font-sans absolute top-6 left-1">
+            0
+          </div>
+        </div>
+      </div>
+
+      <div className="">
+        <h3 className="text-[0.724rem] mb-2 mt-2 font-normal font-sans tracking-wide">
+          Layers
+        </h3>
+        <div className=" flex space-x-2.5">
+          <button className="bg-[#f6f6f9] hover:bg-[#f1f0ff] active:bg-[#e0dfff] rounded-md w-8 h-8 flex justify-center items-center">
+            <svg
+              width={"1rem"}
+              aria-hidden="true"
+              focusable="false"
+              role="img"
+              viewBox="0 0 24 24"
+              className=""
+              fill="none"
+              strokeWidth="2"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              style={{ transform: "rotate(180deg)" }}
+            >
+              <g stroke-width="1.5">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                <path d="M12 10l0 10"></path>
+                <path d="M12 10l4 4"></path>
+                <path d="M12 10l-4 4"></path>
+                <path d="M4 4l16 0"></path>
+              </g>
+            </svg>
+          </button>
+          <button className="bg-[#f6f6f9] hover:bg-[#f1f0ff] active:bg-[#e0dfff] rounded-md w-8 h-8 flex justify-center items-center">
+            <svg
+              width={"1rem"}
+              aria-hidden="true"
+              focusable="false"
+              role="img"
+              viewBox="0 0 24 24"
+              className=""
+              fill="none"
+              strokeWidth="2"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              style={{ transform: "rotate(180deg)" }}
+            >
+              <g stroke-width="1.5">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                <path d="M12 5l0 14"></path>
+                <path d="M16 9l-4 -4"></path>
+                <path d="M8 9l4 -4"></path>
+              </g>
+            </svg>
+          </button>
+          <button className="bg-[#f6f6f9] hover:bg-[#f1f0ff] active:bg-[#e0dfff] rounded-md w-8 h-8 flex justify-center items-center">
+            <svg
+              width={"1rem"}
+              aria-hidden="true"
+              focusable="false"
+              role="img"
+              viewBox="0 0 24 24"
+              className=""
+              fill="none"
+              strokeWidth="2"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <g stroke-width="1.5">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                <path d="M12 5l0 14"></path>
+                <path d="M16 9l-4 -4"></path>
+                <path d="M8 9l4 -4"></path>
+              </g>
+            </svg>
+          </button>
+          <button className="bg-[#f6f6f9] hover:bg-[#f1f0ff] active:bg-[#e0dfff] rounded-md w-8 h-8 flex justify-center items-center">
+            <svg
+              width={"1rem"}
+              aria-hidden="true"
+              focusable="false"
+              role="img"
+              viewBox="0 0 24 24"
+              className=""
+              fill="none"
+              strokeWidth="2"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <g stroke-width="1.5">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                <path d="M12 10l0 10"></path>
+                <path d="M12 10l4 4"></path>
+                <path d="M12 10l-4 4"></path>
+                <path d="M4 4l16 0"></path>
+              </g>
+            </svg>
+          </button>
+        </div>
       </div>
     </aside>
   );
