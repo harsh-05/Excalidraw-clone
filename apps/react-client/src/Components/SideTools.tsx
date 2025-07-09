@@ -18,47 +18,42 @@ export default function SideTools({ drawController }: { drawController: React.Re
         <div className="">
           <button
             onClick={() => {
-              setProp((prev) => ({ ...prev, strokeColor: "#1e1e1e" }))
-              drawController.current?.setProps(prop)
-            }
-              
-            }
+              const newProp = { ...prop, strokeColor: "#1e1e1e" };
+              setProp(newProp);
+              drawController.current?.setProps(newProp);
+            }}
             className="bg-[#1e1e1e] w-[1.4rem] h-[1.4rem] rounded-[0.24rem] mr-1 transform transition-transform duration-100 ease-out hover:scale-110"
           ></button>
           <button
             onClick={() => {
-              setProp((prev) => ({ ...prev, strokeColor: "#e03131" }))
-              drawController.current?.setProps(prop)
-            }
-              
-            }
+              const newProp = { ...prop, strokeColor: "#e03131" };
+              setProp(newProp);
+              drawController.current?.setProps(newProp);
+            }}
             className="bg-[#e03131] w-[1.4rem] h-[1.4rem] rounded-[0.24rem] mr-1 transform transition-transform duration-100 ease-out hover:scale-110"
           ></button>
           <button
             onClick={() => {
-              setProp((prev) => ({ ...prev, strokeColor: "#2f9e44" }))
-              drawController.current?.setProps(prop)
-            }
-              
-            }
+              const newProp = { ...prop, strokeColor: "#2f9e44" };
+              setProp(newProp);
+              drawController.current?.setProps(newProp);
+            }}
             className="bg-[#2f9e44] w-[1.4rem] h-[1.4rem] rounded-[0.24rem] mr-1 transform transition-transform duration-100 ease-out hover:scale-110"
           ></button>
           <button
             onClick={() => {
-              setProp((prev) => ({ ...prev, strokeColor: "#1971c2" }))
-              drawController.current?.setProps(prop)
-            }
-              
-            }
+              const newProp = { ...prop, strokeColor: "#1971c2" };
+              setProp(newProp);
+              drawController.current?.setProps(newProp);
+            }}
             className="bg-[#1971c2] w-[1.4rem] h-[1.4rem] rounded-[0.24rem] mr-1 transform transition-transform duration-100 ease-out hover:scale-110"
           ></button>
           <button
             onClick={() => {
-              setProp((prev) => ({ ...prev, strokeColor: "#f08c00" }))
-              drawController.current?.setProps(prop)
-            }
-              
-            }
+              const newProp = { ...prop, strokeColor: "#f08c00" };
+              setProp(newProp);
+              drawController.current?.setProps(newProp);
+            }}
             className="bg-[#f08c00] w-[1.4rem] h-[1.4rem] rounded-[0.24rem] mr-1 transform transition-transform duration-100 ease-out hover:scale-110"
           ></button>
         </div>
@@ -70,43 +65,44 @@ export default function SideTools({ drawController }: { drawController: React.Re
         </h3>
         <div className="">
           <button
+            onClick={() => {
+              const newProp = { ...prop, fillColor: "transparent" };
+              setProp(newProp);
+              drawController.current?.setProps(newProp);
+            }}
             className="bg-[repeating-conic-gradient(#fff_0deg_90deg,#ccc_0deg_180deg)]
     bg-[size:1rem_1rem] w-[1.4rem] h-[1.4rem] rounded-[0.24rem] mr-1 transform transition-transform duration-100 ease-out hover:scale-110"
           ></button>
           <button
             onClick={() => {
-              setProp((prev) => ({ ...prev, fillColor: "#ffc9c9" }))
-              drawController.current?.setProps(prop);
-            }
-              
-            }
+              const newProp = { ...prop, fillColor: "#ffc9c9" };
+              setProp(newProp);
+              drawController.current?.setProps(newProp);
+            }}
             className="bg-[#ffc9c9] w-[1.4rem] h-[1.4rem] rounded-[0.24rem] mr-1 transform transition-transform duration-100 ease-out hover:scale-110"
           ></button>
           <button
             onClick={() => {
-              setProp((prev) => ({ ...prev, fillColor: "#b2f2bb" }))
-              drawController.current?.setProps(prop);
-            }
-              
-            }
+              const newProp = { ...prop, fillColor: "#b2f2bb" };
+              setProp(newProp);
+              drawController.current?.setProps(newProp);
+            }}
             className="bg-[#b2f2bb] w-[1.4rem] h-[1.4rem] rounded-[0.24rem] mr-1 transform transition-transform duration-100 ease-out hover:scale-110"
           ></button>
           <button
             onClick={() => {
-              setProp((prev) => ({ ...prev, fillColor: "#a5d8ff" }))
-              drawController.current?.setProps(prop);
-            }
-              
-            }
+              const newProp = { ...prop, fillColor: "#a5d8ff" };
+              setProp(newProp);
+              drawController.current?.setProps(newProp);
+            }}
             className="bg-[#a5d8ff] w-[1.4rem] h-[1.4rem] rounded-[0.24rem] mr-1 transform transition-transform duration-100 ease-out hover:scale-110"
           ></button>
           <button
             onClick={() => {
-              setProp((prev) => ({ ...prev, fillColor: "#ffec99" }))
-              drawController.current?.setProps(prop);
-            }
-              
-            }
+              const newProp = { ...prop, fillColor: "#ffec99" };
+              setProp(newProp);
+              drawController.current?.setProps(newProp);
+            }}
             className="bg-[#ffec99] w-[1.4rem] h-[1.4rem] rounded-[0.24rem] mr-1 transform transition-transform duration-100 ease-out hover:scale-110"
           ></button>
         </div>
