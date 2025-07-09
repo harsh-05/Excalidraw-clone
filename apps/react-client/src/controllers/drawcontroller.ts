@@ -189,7 +189,10 @@ export class DrawController {
 
     private handleMouseMove(event: MouseEvent): void {
         const currentPos = this.getPosition(event);
-        
+        // There is a bug in moving the shapes
+        // When I create the shape and moved of this position, then if I try to erase it on the moved position it will not erase that shape, however 
+        // when I try to erase the shape in previous location, then that shape will be erased. 
+        // I need to rebuild the path again, with new coords.... will fix it later.
         if (this.isDragging && this.selectedShape && this.offsetCoords) {
             this.selectedShape.x = currentPos.x - this.offsetCoords.offsetX;
             this.selectedShape.y = currentPos.y - this.offsetCoords.offsetY;
