@@ -208,6 +208,7 @@ export class DrawController {
         if (this.isDragging && this.selectedShape && this.offsetCoords) {
             this.selectedShape.x = currentPos.x - this.offsetCoords.offsetX;
             this.selectedShape.y = currentPos.y - this.offsetCoords.offsetY;
+            this.selectedShape.buildpath();
             this.draw();
         } else if (this.isdrawing && this.selectedTool !== "Select" && this.selectedTool !== "Eraser" && this.selectedTool !== null && this.startCoordinates) {
 

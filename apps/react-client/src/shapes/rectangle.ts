@@ -10,7 +10,7 @@ class Rectangle extends Shape {
         super(x, y, width, height, "Rectangle", prop);
     }
 
-    protected buildpath(): void {
+    public buildpath(): void {
         const p = new Path2D();
         p.rect(this.x, this.y, this.width, this.height);
         this.path2d = p;

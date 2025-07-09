@@ -22,7 +22,7 @@ abstract class Shape {
       this.buildpath();
    }
 
-   protected abstract buildpath(): void
+   public abstract buildpath(): void
 
    hitDetectionEraser(x: number, y: number, ctx: CanvasRenderingContext2D): boolean {
       if (ctx.isPointInPath(this.path2d, x, y) || ctx.isPointInStroke(this.path2d, x, y)) return true;
