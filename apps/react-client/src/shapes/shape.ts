@@ -1,20 +1,24 @@
 import { shapeType } from "@repo/schemazod";
-import { Handle, ResizeHandleEnum } from "../types/types";
+import { Handle, props, ResizeHandleEnum } from "../types/types";
 abstract class Shape {
    x: number;
    y: number;
    width: number;
    height: number;
-   type: shapeType
+   type: shapeType;
+   prop: props
+
+
 
    protected path2d!: Path2D;
 
-   constructor(x: number, y: number, width: number, height: number, type: shapeType) {
+   constructor(x: number, y: number, width: number, height: number, type: shapeType, prop: props) {
       this.x = x;
       this.y = y;
       this.height = height;
       this.width = width;
       this.type = type;
+      this.prop = prop;
       this.buildpath();
    }
 

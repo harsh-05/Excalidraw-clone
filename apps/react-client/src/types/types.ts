@@ -20,3 +20,9 @@ export type Handle = {
     width: number,
     height: number
 }
+
+export interface props  {
+    fillColor: string;
+    strokeColor: string;
+
+}

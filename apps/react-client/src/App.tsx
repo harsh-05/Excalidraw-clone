@@ -14,7 +14,8 @@ function App() {
   const [selectedtool, setSelectedTool] = useState< SelectTools | null>(null);
 
   const canvasref = useRef<HTMLCanvasElement| null>(null);
-  const drawController = useRef<DrawController| null>(null);
+  const drawController = useRef<DrawController | null>(null);
+  
 
   useEffect(() => {
     if (!canvasref.current) return;
@@ -49,7 +50,7 @@ function App() {
   
   return (
     <>
-      <SideTools></SideTools>
+      <SideTools drawController={drawController}></SideTools>
      <Tools selectedtool={selectedtool} setSelectedTool={setSelectedTool} drawController={drawController}></Tools>
       <canvas
         ref={canvasref}

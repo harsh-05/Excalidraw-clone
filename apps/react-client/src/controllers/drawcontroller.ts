@@ -4,12 +4,12 @@ import Rectangle from "../shapes/rectangle";
 import Circle from "../shapes/circle";
 import Line from "../shapes/line";
 import Quad from "../shapes/quad";
-import { ResizeHandleEnum, SelectTools } from "../types/types";
+import { props, ResizeHandleEnum, SelectTools } from "../types/types";
 
 
 
 type ShapeConstructor = new (
-    x: number, y: number, width: number, height: number
+    x: number, y: number, width: number, height: number, prop:props
 ) => Shape;
 
 const shapeConstructors: Record<shapeType, ShapeConstructor> = {
@@ -53,6 +53,18 @@ export class DrawController {
     
 
     private selectedTool: SelectTools | null = null;
+
+
+    // extra tools for styling the shapes
+
+    private prop = { 
+        fillColor: "transparent",
+        strokeColor: "#1e1e1e"
+    }   
+
+    public setProps(prop: Partial<props>) { 
+        this.prop = { ...this.prop, ...prop };
+    }
 
 
     // Creating the Bound mouse events functions, do read about "this" and "bind" online or on google docs...
@@ -204,7 +216,7 @@ export class DrawController {
             const height = currentPos.y - this.startCoordinates.startY;
             const constructor = shapeConstructors[this.selectedTool];
             if (constructor) {
-                const shape = new constructor(this.startCoordinates.startX, this.startCoordinates.startY, width, height);
+                const shape = new constructor(this.startCoordinates.startX, this.startCoordinates.startY, width, height, this.prop);
 
                 this.previewShape = shape;
 
@@ -245,7 +257,7 @@ export class DrawController {
             if (constructor) {
 
                 if (width !== 0 && height !== 0) {
-                    const shape = new constructor(this.startCoordinates.startX, this.startCoordinates.startY, width, height);
+                    const shape = new constructor(this.startCoordinates.startX, this.startCoordinates.startY, width, height, this.prop);
 
                     this.shapes.push(shape);
 

@@ -1,4 +1,4 @@
-import { Handle, ResizeHandleEnum } from "../types/types";
+import { Handle, props, ResizeHandleEnum } from "../types/types";
 import Shape from "./shape";
 
 class Rectangle extends Shape {
@@ -6,8 +6,8 @@ class Rectangle extends Shape {
 
 
     // We'll use class to hold the properties such as fillstyle, strokestyle, linewidth, etc.......
-    constructor(x: number, y: number, width: number, height: number) {
-        super(x, y, width, height, "Rectangle")
+    constructor(x: number, y: number, width: number, height: number, prop: props) {
+        super(x, y, width, height, "Rectangle", prop);
     }
 
     protected buildpath(): void {
@@ -17,7 +17,18 @@ class Rectangle extends Shape {
     }
 
     draw(context: CanvasRenderingContext2D): void {
-        context.strokeRect(this.x, this.y, this.width, this.height);
+        //context.strokeRect(this.x, this.y, this.width, this.height);
+        context.save();
+
+        context.fillStyle = this.prop.fillColor;
+        context.strokeStyle = this.prop.strokeColor;
+         
+        if (this.prop.fillColor !== "transparent") {
+            context.fill(this.path2d);
+        }
+
+        context.stroke(this.path2d);
+        context.restore();
     }
 
     isSelected(x: number, y: number): boolean {

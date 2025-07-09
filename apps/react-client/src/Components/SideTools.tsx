@@ -1,7 +1,13 @@
 import { useState } from "react";
+import { props } from "../types/types";
+import { DrawController } from "../controllers/drawcontroller";
 
-export default function SideTools() {
+export default function SideTools({ drawController }: { drawController: React.RefObject<DrawController | null>}) {
   const [inputVal, setInputVal] = useState(100);
+  const [prop, setProp] = useState<props>({
+    fillColor: "transparent",
+    strokeColor: "#1e1e1e",
+  });
 
   return (
     <aside className="fixed left-3 top-1/2 -translate-y-1/2 h-[36rem] overflow-y-auto scroll w-[12.5rem] p-3 rounded-md bg-white shadow-md flex flex-col gap-4">
@@ -10,11 +16,51 @@ export default function SideTools() {
           Stroke
         </h3>
         <div className="">
-          <button className="bg-[#1e1e1e] w-[1.4rem] h-[1.4rem] rounded-[0.24rem] mr-1 transform transition-transform duration-100 ease-out hover:scale-110"></button>
-          <button className="bg-[#e03131] w-[1.4rem] h-[1.4rem] rounded-[0.24rem] mr-1 transform transition-transform duration-100 ease-out hover:scale-110"></button>
-          <button className="bg-[#2f9e44] w-[1.4rem] h-[1.4rem] rounded-[0.24rem] mr-1 transform transition-transform duration-100 ease-out hover:scale-110"></button>
-          <button className="bg-[#1971c2] w-[1.4rem] h-[1.4rem] rounded-[0.24rem] mr-1 transform transition-transform duration-100 ease-out hover:scale-110"></button>
-          <button className="bg-[#f08c00] w-[1.4rem] h-[1.4rem] rounded-[0.24rem] mr-1 transform transition-transform duration-100 ease-out hover:scale-110"></button>
+          <button
+            onClick={() => {
+              setProp((prev) => ({ ...prev, strokeColor: "#1e1e1e" }))
+              drawController.current?.setProps(prop)
+            }
+              
+            }
+            className="bg-[#1e1e1e] w-[1.4rem] h-[1.4rem] rounded-[0.24rem] mr-1 transform transition-transform duration-100 ease-out hover:scale-110"
+          ></button>
+          <button
+            onClick={() => {
+              setProp((prev) => ({ ...prev, strokeColor: "#e03131" }))
+              drawController.current?.setProps(prop)
+            }
+              
+            }
+            className="bg-[#e03131] w-[1.4rem] h-[1.4rem] rounded-[0.24rem] mr-1 transform transition-transform duration-100 ease-out hover:scale-110"
+          ></button>
+          <button
+            onClick={() => {
+              setProp((prev) => ({ ...prev, strokeColor: "#2f9e44" }))
+              drawController.current?.setProps(prop)
+            }
+              
+            }
+            className="bg-[#2f9e44] w-[1.4rem] h-[1.4rem] rounded-[0.24rem] mr-1 transform transition-transform duration-100 ease-out hover:scale-110"
+          ></button>
+          <button
+            onClick={() => {
+              setProp((prev) => ({ ...prev, strokeColor: "#1971c2" }))
+              drawController.current?.setProps(prop)
+            }
+              
+            }
+            className="bg-[#1971c2] w-[1.4rem] h-[1.4rem] rounded-[0.24rem] mr-1 transform transition-transform duration-100 ease-out hover:scale-110"
+          ></button>
+          <button
+            onClick={() => {
+              setProp((prev) => ({ ...prev, strokeColor: "#f08c00" }))
+              drawController.current?.setProps(prop)
+            }
+              
+            }
+            className="bg-[#f08c00] w-[1.4rem] h-[1.4rem] rounded-[0.24rem] mr-1 transform transition-transform duration-100 ease-out hover:scale-110"
+          ></button>
         </div>
       </div>
 
@@ -27,10 +73,42 @@ export default function SideTools() {
             className="bg-[repeating-conic-gradient(#fff_0deg_90deg,#ccc_0deg_180deg)]
     bg-[size:1rem_1rem] w-[1.4rem] h-[1.4rem] rounded-[0.24rem] mr-1 transform transition-transform duration-100 ease-out hover:scale-110"
           ></button>
-          <button className="bg-[#ffc9c9] w-[1.4rem] h-[1.4rem] rounded-[0.24rem] mr-1 transform transition-transform duration-100 ease-out hover:scale-110"></button>
-          <button className="bg-[#b2f2bb] w-[1.4rem] h-[1.4rem] rounded-[0.24rem] mr-1 transform transition-transform duration-100 ease-out hover:scale-110"></button>
-          <button className="bg-[#a5d8ff] w-[1.4rem] h-[1.4rem] rounded-[0.24rem] mr-1 transform transition-transform duration-100 ease-out hover:scale-110"></button>
-          <button className="bg-[#ffec99] w-[1.4rem] h-[1.4rem] rounded-[0.24rem] mr-1 transform transition-transform duration-100 ease-out hover:scale-110"></button>
+          <button
+            onClick={() => {
+              setProp((prev) => ({ ...prev, fillColor: "#ffc9c9" }))
+              drawController.current?.setProps(prop);
+            }
+              
+            }
+            className="bg-[#ffc9c9] w-[1.4rem] h-[1.4rem] rounded-[0.24rem] mr-1 transform transition-transform duration-100 ease-out hover:scale-110"
+          ></button>
+          <button
+            onClick={() => {
+              setProp((prev) => ({ ...prev, fillColor: "#b2f2bb" }))
+              drawController.current?.setProps(prop);
+            }
+              
+            }
+            className="bg-[#b2f2bb] w-[1.4rem] h-[1.4rem] rounded-[0.24rem] mr-1 transform transition-transform duration-100 ease-out hover:scale-110"
+          ></button>
+          <button
+            onClick={() => {
+              setProp((prev) => ({ ...prev, fillColor: "#a5d8ff" }))
+              drawController.current?.setProps(prop);
+            }
+              
+            }
+            className="bg-[#a5d8ff] w-[1.4rem] h-[1.4rem] rounded-[0.24rem] mr-1 transform transition-transform duration-100 ease-out hover:scale-110"
+          ></button>
+          <button
+            onClick={() => {
+              setProp((prev) => ({ ...prev, fillColor: "#ffec99" }))
+              drawController.current?.setProps(prop);
+            }
+              
+            }
+            className="bg-[#ffec99] w-[1.4rem] h-[1.4rem] rounded-[0.24rem] mr-1 transform transition-transform duration-100 ease-out hover:scale-110"
+          ></button>
         </div>
       </div>
 
