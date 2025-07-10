@@ -26,3 +26,8 @@ export interface props  {
     strokeColor: string;
 
 }
+
+export const DEFAULT_PROPS: props =  { 
+    fillColor: "transparent",
+    strokeColor: "#1e1e1e"
+}

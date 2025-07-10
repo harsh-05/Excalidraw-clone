@@ -4,7 +4,7 @@ import Rectangle from "../shapes/rectangle";
 import Circle from "../shapes/circle";
 import Line from "../shapes/line";
 import Quad from "../shapes/quad";
-import { props, ResizeHandleEnum, SelectTools } from "../types/types";
+import { DEFAULT_PROPS, props, ResizeHandleEnum, SelectTools } from "../types/types";
 
 
 
@@ -57,10 +57,7 @@ export class DrawController {
 
     // extra tools for styling the shapes
 
-    private prop = { 
-        fillColor: "transparent",
-        strokeColor: "#1e1e1e"
-    }   
+    private prop = DEFAULT_PROPS;   
 
     public setProps(prop: Partial<props>) { 
         this.prop = { ...this.prop, ...prop };

@@ -1,16 +1,16 @@
 import { useState } from "react";
-import { props } from "../types/types";
+import { DEFAULT_PROPS, props } from "../types/types";
 import { DrawController } from "../controllers/drawcontroller";
 
 export default function SideTools({ drawController }: { drawController: React.RefObject<DrawController | null>}) {
   const [inputVal, setInputVal] = useState(100);
-  const [prop, setProp] = useState<props>({
-    fillColor: "transparent",
-    strokeColor: "#1e1e1e",
-  });
+  const [prop, setProp] = useState<props>(DEFAULT_PROPS);
 
   return (
     <aside className="fixed left-3 top-1/2 -translate-y-1/2 h-[36rem] overflow-y-auto scroll w-[12.5rem] p-3 rounded-md bg-white shadow-md flex flex-col gap-4">
+      
+      {/* Stroke Color Buttons */}
+
       <div className="">
         <h3 className="text-[0.724rem] mb-2 font-normal font-sans tracking-wide">
           Stroke
@@ -58,7 +58,9 @@ export default function SideTools({ drawController }: { drawController: React.Re
           ></button>
         </div>
       </div>
-
+        
+      {/* Background Color Buttons */}
+      
       <div className="">
         <h3 className="text-[0.724rem] mb-2 font-normal font-sans tracking-wide">
           Background
