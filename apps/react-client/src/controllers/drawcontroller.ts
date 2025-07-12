@@ -185,10 +185,10 @@ export class DrawController {
 
         if (this.selectedTool === "Select") {
             
-            
+            let foundShape:boolean = false;
             for (let i = this.shapes.length - 1; i >= 0; i--) {
                 if (this.shapes[i].isSelected(x, y)) {
-                    
+                    foundShape = true;
                     this.selectedShape = this.shapes[i];
                     this.isDragging = true;
 
@@ -202,6 +202,12 @@ export class DrawController {
 
             // Calling draw() to draw the selection around the shape...
             this.draw();
+
+            //setting the selected shape props to the SideTools.
+            if (foundShape && this.callbackProp) {
+                if (this.selectedShape)
+                    this.callbackProp(this.selectedShape.prop);
+            }
 
         } else if (this.selectedTool !== null) {
 
@@ -367,7 +373,10 @@ export class DrawController {
         this.selectedShape = null;
         this.offsetCoords = null;
         this.selectedTool = tool;
-        this.draw()
+        this.draw();
+        
+        if (this.callbackProp)
+            this.callbackProp(this.prop);
     }
 
 

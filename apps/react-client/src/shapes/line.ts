@@ -1,13 +1,13 @@
-import { Handle, ResizeHandleEnum } from "../types/types";
+import { Handle, props, ResizeHandleEnum } from "../types/types";
 import Shape from "./shape";
 
 class Line extends Shape {
 
-    constructor(x: number, y: number, width: number, height: number) {
-        super(x, y, width, height, "Line");
+    constructor(x: number, y: number, width: number, height: number, prop: props) {
+        super(x, y, width, height, "Line", prop);
     }
 
-    protected buildpath(): void {
+    public buildpath(): void {
         const p = new Path2D();
         
         const endx = (this.x) + this.width;
@@ -20,13 +20,24 @@ class Line extends Shape {
     }
 
     draw(context: CanvasRenderingContext2D): void {
-        const endx = (this.x) + this.width;
-        const endy = (this.y) + this.height;
+        // const endx = (this.x) + this.width;
+        // const endy = (this.y) + this.height;
 
-        context.beginPath();
-        context.moveTo(this.x, this.y);
-        context.lineTo(endx, endy);
-        context.stroke();
+        // context.beginPath();
+        // context.moveTo(this.x, this.y);
+        // context.lineTo(endx, endy);
+        // context.stroke();
+
+        context.save();
+
+        context.fillStyle = this.prop.fillColor;
+        context.strokeStyle = this.prop.strokeColor;
+
+        if (this.prop.fillColor !== 'transparent')
+            context.fill(this.path2d);
+
+        context.stroke(this.path2d);
+        context.restore();
     }
 
     isSelected(x: number, y: number): boolean {

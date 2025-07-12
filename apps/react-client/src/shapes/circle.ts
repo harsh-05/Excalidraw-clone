@@ -1,15 +1,15 @@
-import { Handle, ResizeHandleEnum } from "../types/types";
+import { Handle, props, ResizeHandleEnum } from "../types/types";
 import Shape from "./shape";
 
 class Circle extends Shape {
 
 
-    constructor(x: number, y: number, width: number, height: number) {
-        super(x, y, width, height, "Circle");
+    constructor(x: number, y: number, width: number, height: number, prop: props) {
+        super(x, y, width, height, "Circle", prop);
 
     }
 
-    protected buildpath(): void {
+    public buildpath(): void {
         const p = new Path2D();
 
         const radiusX = Math.abs(this.width / 2);
@@ -24,14 +24,25 @@ class Circle extends Shape {
     }
 
     draw(context: CanvasRenderingContext2D): void {
-        const radiusX = Math.abs(this.width / 2);
-        const radiusY = Math.abs(this.height / 2);
-        const centreX = (2 * this.x + this.width) / 2;
-        const centreY = (2 * this.y + this.height) / 2;
+        // const radiusX = Math.abs(this.width / 2);
+        // const radiusY = Math.abs(this.height / 2);
+        // const centreX = (2 * this.x + this.width) / 2;
+        // const centreY = (2 * this.y + this.height) / 2;
 
-        context.beginPath();
-        context.ellipse(centreX, centreY, radiusX, radiusY, 0, 0, 2 * Math.PI);
-        context.stroke()
+        // context.beginPath();
+        // context.ellipse(centreX, centreY, radiusX, radiusY, 0, 0, 2 * Math.PI);
+        // context.stroke()
+
+        context.save();
+        context.fillStyle = this.prop.fillColor;
+        context.strokeStyle = this.prop.strokeColor;
+
+        if (this.prop.fillColor !== 'transparent')
+            context.fill(this.path2d);
+
+        context.stroke(this.path2d);
+
+        context.restore();
     }
 
     isSelected(x: number, y: number): boolean {

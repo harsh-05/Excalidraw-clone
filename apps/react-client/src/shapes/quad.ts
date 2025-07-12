@@ -1,13 +1,13 @@
-import { Handle, ResizeHandleEnum } from "../types/types";
+import { Handle, props, ResizeHandleEnum } from "../types/types";
 import Shape from "./shape";
 
 class Quad extends Shape {
 
-    constructor(x: number, y: number, width: number, height: number) {
-        super(x, y, width, height, "Quad")
+    constructor(x: number, y: number, width: number, height: number, prop: props) {
+        super(x, y, width, height, "Quad", prop);
     }
 
-    protected buildpath(): void {
+    public buildpath(): void {
         const p = new Path2D();
         const point1 = { x: (this.x + this.width / 2), y: this.y };
         const point2 = { x: (this.x + this.width), y: (this.y + this.height / 2) };
@@ -33,18 +33,29 @@ class Quad extends Shape {
         // (width /2, y + height = endy ) ------> 3. (startx + width /2, y + height)
         // (startx, height /2) ---------> 4. (startx, starty + height /2)
 
-        const point1 = { x: (this.x + this.width / 2), y: this.y };
-        const point2 = { x: (this.x + this.width), y: (this.y + this.height / 2) };
-        const point3 = { x: (this.x + this.width / 2), y: this.y + this.height };
-        const point4 = { x: (this.x), y: this.y + this.height / 2 };
+        // const point1 = { x: (this.x + this.width / 2), y: this.y };
+        // const point2 = { x: (this.x + this.width), y: (this.y + this.height / 2) };
+        // const point3 = { x: (this.x + this.width / 2), y: this.y + this.height };
+        // const point4 = { x: (this.x), y: this.y + this.height / 2 };
 
-        context.beginPath();
-        context.moveTo(point1.x, point1.y);
-        context.lineTo(point2.x, point2.y);
-        context.lineTo(point3.x, point3.y);
-        context.lineTo(point4.x, point4.y);
-        context.closePath();
-        context.stroke();
+        // context.beginPath();
+        // context.moveTo(point1.x, point1.y);
+        // context.lineTo(point2.x, point2.y);
+        // context.lineTo(point3.x, point3.y);
+        // context.lineTo(point4.x, point4.y);
+        // context.closePath();
+        // context.stroke();
+
+        context.save();
+
+        context.fillStyle = this.prop.fillColor;
+        context.strokeStyle = this.prop.strokeColor;
+
+        if (this.prop.fillColor !== 'transparent')
+            context.fill(this.path2d);
+
+        context.stroke(this.path2d);
+        context.restore();
 
     }
 
