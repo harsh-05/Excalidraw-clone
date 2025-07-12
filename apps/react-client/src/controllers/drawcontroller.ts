@@ -57,10 +57,26 @@ export class DrawController {
 
     // extra tools for styling the shapes
 
-    private prop = DEFAULT_PROPS;   
+    private prop = DEFAULT_PROPS;
+    
+    private callbackProp?: (prop: props) => void
 
-    public setProps(prop: Partial<props>) { 
-        this.prop = { ...this.prop, ...prop };
+    public setCallbackProp(callback: (prop: props) => void) {
+        this.callbackProp = callback;
+    }
+
+    public setProps(prop: props) { 
+        if (this.selectedShape !== null) {
+            this.selectedShape.prop = { ...this.selectedShape.prop, ...prop };
+            this.draw();
+
+        } else {
+            this.prop = { ...this.prop, ...prop };
+        }
+
+        if(this.callbackProp !== undefined) this.callbackProp(prop);
+        
+
     }
 
 
@@ -154,6 +170,7 @@ export class DrawController {
                 const y2 = Math.max(this.selectedShape.y, this.selectedShape.y + this.selectedShape.height);
 
                 this.resizeShapeCoordinates = { x1, y1, x2, y2 };
+                
                 return;
             }
         }

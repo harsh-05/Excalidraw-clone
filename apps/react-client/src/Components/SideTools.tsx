@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DEFAULT_PROPS, props } from "../types/types";
 import { DrawController } from "../controllers/drawcontroller";
 
@@ -6,9 +6,14 @@ export default function SideTools({ drawController }: { drawController: React.Re
   const [inputVal, setInputVal] = useState(100);
   const [prop, setProp] = useState<props>(DEFAULT_PROPS);
 
+  useEffect(() => {
+    if (drawController.current) {
+      drawController.current.setCallbackProp(setProp);
+      }
+  }, [drawController.current]);
+
   return (
     <aside className="fixed left-3 top-1/2 -translate-y-1/2 h-[36rem] overflow-y-auto scroll w-[12.5rem] p-3 rounded-md bg-white shadow-md flex flex-col gap-4">
-      
       {/* Stroke Color Buttons */}
 
       <div className="">
@@ -19,48 +24,48 @@ export default function SideTools({ drawController }: { drawController: React.Re
           <button
             onClick={() => {
               const newProp = { ...prop, strokeColor: "#1e1e1e" };
-              setProp(newProp);
+              // setProp(newProp);
               drawController.current?.setProps(newProp);
             }}
-            className="bg-[#1e1e1e] w-[1.4rem] h-[1.4rem] rounded-[0.24rem] mr-1 transform transition-transform duration-100 ease-out hover:scale-110"
+            className={` ${prop.strokeColor === "#1e1e1e" ? "outline outline-2 outline-blue-500" : ""} bg-[#1e1e1e] w-[1.4rem] h-[1.4rem] rounded-[0.24rem] mr-1 transform transition-transform duration-100 ease-out hover:scale-110`}
           ></button>
           <button
             onClick={() => {
               const newProp = { ...prop, strokeColor: "#e03131" };
-              setProp(newProp);
+              // setProp(newProp);
               drawController.current?.setProps(newProp);
             }}
-            className="bg-[#e03131] w-[1.4rem] h-[1.4rem] rounded-[0.24rem] mr-1 transform transition-transform duration-100 ease-out hover:scale-110"
+            className={` ${prop.strokeColor === "#e03131" ? "outline outline-2 outline-blue-500" : ""} bg-[#e03131] w-[1.4rem] h-[1.4rem] rounded-[0.24rem] mr-1 transform transition-transform duration-100 ease-out hover:scale-110`}
           ></button>
           <button
             onClick={() => {
               const newProp = { ...prop, strokeColor: "#2f9e44" };
-              setProp(newProp);
+              // setProp(newProp);
               drawController.current?.setProps(newProp);
             }}
-            className="bg-[#2f9e44] w-[1.4rem] h-[1.4rem] rounded-[0.24rem] mr-1 transform transition-transform duration-100 ease-out hover:scale-110"
+            className={` ${prop.strokeColor === "#2f9e44" ? "outline outline-2 outline-blue-500" : ""} bg-[#2f9e44] w-[1.4rem] h-[1.4rem] rounded-[0.24rem] mr-1 transform transition-transform duration-100 ease-out hover:scale-110`}
           ></button>
           <button
             onClick={() => {
               const newProp = { ...prop, strokeColor: "#1971c2" };
-              setProp(newProp);
+              // setProp(newProp);
               drawController.current?.setProps(newProp);
             }}
-            className="bg-[#1971c2] w-[1.4rem] h-[1.4rem] rounded-[0.24rem] mr-1 transform transition-transform duration-100 ease-out hover:scale-110"
+            className={` ${prop.strokeColor === "#1971c2" ? "outline outline-2 outline-blue-500" : ""} bg-[#1971c2] w-[1.4rem] h-[1.4rem] rounded-[0.24rem] mr-1 transform transition-transform duration-100 ease-out hover:scale-110`}
           ></button>
           <button
             onClick={() => {
               const newProp = { ...prop, strokeColor: "#f08c00" };
-              setProp(newProp);
+              // setProp(newProp);
               drawController.current?.setProps(newProp);
             }}
-            className="bg-[#f08c00] w-[1.4rem] h-[1.4rem] rounded-[0.24rem] mr-1 transform transition-transform duration-100 ease-out hover:scale-110"
+            className={` ${prop.strokeColor === "#f08c00" ? "outline outline-2 outline-blue-500" : ""} bg-[#f08c00] w-[1.4rem] h-[1.4rem] rounded-[0.24rem] mr-1 transform transition-transform duration-100 ease-out hover:scale-110`}
           ></button>
         </div>
       </div>
-        
+
       {/* Background Color Buttons */}
-      
+
       <div className="">
         <h3 className="text-[0.724rem] mb-2 font-normal font-sans tracking-wide">
           Background
@@ -69,43 +74,43 @@ export default function SideTools({ drawController }: { drawController: React.Re
           <button
             onClick={() => {
               const newProp = { ...prop, fillColor: "transparent" };
-              setProp(newProp);
+              // setProp(newProp);
               drawController.current?.setProps(newProp);
             }}
-            className="bg-[repeating-conic-gradient(#fff_0deg_90deg,#ccc_0deg_180deg)]
-    bg-[size:1rem_1rem] w-[1.4rem] h-[1.4rem] rounded-[0.24rem] mr-1 transform transition-transform duration-100 ease-out hover:scale-110"
+            className={` ${prop.fillColor === "transparent" ? "outline outline-2 outline-blue-500" : ""} bg-[repeating-conic-gradient(#fff_0deg_90deg,#ccc_0deg_180deg)]
+    bg-[size:1rem_1rem] w-[1.4rem] h-[1.4rem] rounded-[0.24rem] mr-1 transform transition-transform duration-100 ease-out hover:scale-110`}
           ></button>
           <button
             onClick={() => {
               const newProp = { ...prop, fillColor: "#ffc9c9" };
-              setProp(newProp);
+              // setProp(newProp);
               drawController.current?.setProps(newProp);
             }}
-            className="bg-[#ffc9c9] w-[1.4rem] h-[1.4rem] rounded-[0.24rem] mr-1 transform transition-transform duration-100 ease-out hover:scale-110"
+            className={` ${prop.fillColor === "#ffc9c9" ? "outline outline-2 outline-blue-500" : ""} bg-[#ffc9c9] w-[1.4rem] h-[1.4rem] rounded-[0.24rem] mr-1 transform transition-transform duration-100 ease-out hover:scale-110`}
           ></button>
           <button
             onClick={() => {
               const newProp = { ...prop, fillColor: "#b2f2bb" };
-              setProp(newProp);
+              // setProp(newProp);
               drawController.current?.setProps(newProp);
             }}
-            className="bg-[#b2f2bb] w-[1.4rem] h-[1.4rem] rounded-[0.24rem] mr-1 transform transition-transform duration-100 ease-out hover:scale-110"
+            className={`${prop.fillColor === "#b2f2bb" ? "outline outline-2 outline-blue-500" : ""} bg-[#b2f2bb] w-[1.4rem] h-[1.4rem] rounded-[0.24rem] mr-1 transform transition-transform duration-100 ease-out hover:scale-110`}
           ></button>
           <button
             onClick={() => {
               const newProp = { ...prop, fillColor: "#a5d8ff" };
-              setProp(newProp);
+              // setProp(newProp);
               drawController.current?.setProps(newProp);
             }}
-            className="bg-[#a5d8ff] w-[1.4rem] h-[1.4rem] rounded-[0.24rem] mr-1 transform transition-transform duration-100 ease-out hover:scale-110"
+            className={` ${prop.fillColor === "#a5d8ff" ? "outline outline-2 outline-blue-500" : ""} bg-[#a5d8ff] w-[1.4rem] h-[1.4rem] rounded-[0.24rem] mr-1 transform transition-transform duration-100 ease-out hover:scale-110`}
           ></button>
           <button
             onClick={() => {
               const newProp = { ...prop, fillColor: "#ffec99" };
-              setProp(newProp);
+              // setProp(newProp);
               drawController.current?.setProps(newProp);
             }}
-            className="bg-[#ffec99] w-[1.4rem] h-[1.4rem] rounded-[0.24rem] mr-1 transform transition-transform duration-100 ease-out hover:scale-110"
+            className={` ${prop.fillColor === "#ffec99" ? "outline outline-2 outline-blue-500" : ""} bg-[#ffec99] w-[1.4rem] h-[1.4rem] rounded-[0.24rem] mr-1 transform transition-transform duration-100 ease-out hover:scale-110`}
           ></button>
         </div>
       </div>
