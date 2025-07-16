@@ -70,9 +70,9 @@ export class DrawController {
             this.selectedShape.prop = { ...this.selectedShape.prop, ...prop };
             this.draw();
 
-        } else {
+        }  
             this.prop = { ...this.prop, ...prop };
-        }
+        
 
         if(this.callbackProp !== undefined) this.callbackProp(prop);
         
