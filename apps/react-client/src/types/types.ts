@@ -24,10 +24,12 @@ export type Handle = {
 export interface props  {
     fillColor: string;
     strokeColor: string;
+    lineWidth: number;
 
 }
 
 export const DEFAULT_PROPS: props =  { 
     fillColor: "transparent",
-    strokeColor: "#1e1e1e"
+    strokeColor: "#1e1e1e",
+    lineWidth: 1,
 }

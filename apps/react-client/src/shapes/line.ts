@@ -32,6 +32,7 @@ class Line extends Shape {
 
         context.fillStyle = this.prop.fillColor;
         context.strokeStyle = this.prop.strokeColor;
+        context.lineWidth = this.prop.lineWidth;
 
         if (this.prop.fillColor !== 'transparent')
             context.fill(this.path2d);
