@@ -10,7 +10,7 @@ function App() {
   //   width: window.innerWidth,
   //   height: window.innerHeight,
   // });
-
+  const [controllerReady, setController] = useState(false);
   const [selectedtool, setSelectedTool] = useState< SelectTools | null>(null);
 
   const canvasref = useRef<HTMLCanvasElement| null>(null);
@@ -40,6 +40,8 @@ function App() {
         window.innerWidth,
         window.innerHeight
       );
+
+      setController(true);
     }
 
     return () => {
@@ -50,7 +52,7 @@ function App() {
   
   return (
     <>
-      <SideTools drawController={drawController}></SideTools>
+      <SideTools drawController={drawController} controllerReady={controllerReady}></SideTools>
      <Tools selectedtool={selectedtool} setSelectedTool={setSelectedTool} drawController={drawController}></Tools>
       <canvas
         ref={canvasref}

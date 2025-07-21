@@ -2,15 +2,16 @@ import { useEffect, useState } from "react";
 import { DEFAULT_PROPS, props } from "../types/types";
 import { DrawController } from "../controllers/drawcontroller";
 
-export default function SideTools({ drawController }: { drawController: React.RefObject<DrawController | null>}) {
+export default function SideTools({ drawController, controllerReady }: { drawController: React.RefObject<DrawController | null>, controllerReady: boolean}) {
   const [inputVal, setInputVal] = useState(100);
   const [prop, setProp] = useState<props>(DEFAULT_PROPS);
 
   useEffect(() => {
+    
     if (drawController.current) {
       drawController.current.setCallbackProp(setProp);
       }
-  }, [drawController.current]);
+  }, [controllerReady]);
 
   return (
     <aside className="fixed left-3 top-1/2 -translate-y-1/2 h-[36rem] overflow-y-auto scroll w-[12.5rem] p-3 rounded-md bg-white shadow-md flex flex-col gap-4">
@@ -138,13 +139,28 @@ export default function SideTools({ drawController }: { drawController: React.Re
           Stroke Width
         </h3>
         <div className=" flex space-x-2.5">
-          <button className="bg-[#f6f6f9] hover:bg-[#f1f0ff] active:bg-[#e0dfff] rounded-md w-8 h-8 flex justify-center items-center">
+          <button
+            onClick={() =>
+              drawController.current?.setProps({ ...prop, lineWidth: 1 })
+            }
+            className={` ${prop.lineWidth === 1 ? "bg-[#E0DFFF]" : ""} bg-[#f6f6f9] hover:bg-[#f1f0ff] active:bg-[#e0dfff] focus:outline focus:outline-2 focus:outline-blue-500 rounded-md w-8 h-8 flex justify-center items-center`}
+          >
             <Stroke />
           </button>
-          <button className="bg-[#f6f6f9] hover:bg-[#f1f0ff] active:bg-[#e0dfff] rounded-md w-8 h-8 flex justify-center items-center">
+          <button
+            onClick={() =>
+              drawController.current?.setProps({ ...prop, lineWidth: 2.5 })
+            }
+            className={`${prop.lineWidth === 2.5 ? "bg-[#E0DFFF]" : ""} bg-[#f6f6f9] hover:bg-[#f1f0ff] focus:outline focus:outline-2 focus:outline-blue-500 active:bg-[#e0dfff] rounded-md w-8 h-8 flex justify-center items-center`}
+          >
             <Stroke strokeWidth="2.5" />
           </button>
-          <button className="bg-[#f6f6f9] hover:bg-[#f1f0ff] active:bg-[#e0dfff] rounded-md w-8 h-8 flex justify-center items-center">
+          <button
+            onClick={() =>
+              drawController.current?.setProps({ ...prop, lineWidth: 3.75 })
+            }
+            className={`${prop.lineWidth === 3.75 ? "bg-[#E0DFFF]" : ""} bg-[#f6f6f9] hover:bg-[#f1f0ff] focus:outline focus:outline-2 focus:outline-blue-500 active:bg-[#e0dfff] rounded-md w-8 h-8 flex justify-center items-center`}
+          >
             <Stroke strokeWidth="3.75" />
           </button>
         </div>
