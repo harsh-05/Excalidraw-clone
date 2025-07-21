@@ -74,7 +74,7 @@ export class DrawController {
             this.prop = { ...this.prop, ...prop };
         
 
-        if(this.callbackProp !== undefined) this.callbackProp(prop);
+        if (this.callbackProp !== undefined) this.callbackProp(this.prop);
         
 
     }
