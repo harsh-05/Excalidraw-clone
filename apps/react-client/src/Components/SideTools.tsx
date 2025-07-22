@@ -7,6 +7,10 @@ export default function SideTools({ drawController, controllerReady }: { drawCon
   const [prop, setProp] = useState<props>(DEFAULT_PROPS);
 
   useEffect(() => {
+    console.log(prop);
+  },[prop])
+
+  useEffect(() => {
     
     if (drawController.current) {
       drawController.current.setCallbackProp(setProp);
@@ -143,7 +147,7 @@ export default function SideTools({ drawController, controllerReady }: { drawCon
             onClick={() =>
               drawController.current?.setProps({ ...prop, lineWidth: 1 })
             }
-            className={` ${prop.lineWidth === 1 ? "bg-[#E0DFFF]" : ""} bg-[#f6f6f9] hover:bg-[#f1f0ff] active:bg-[#e0dfff] focus:outline focus:outline-2 focus:outline-blue-500 rounded-md w-8 h-8 flex justify-center items-center`}
+            className={` ${prop.lineWidth == 1 ? "bg-[#e0dfff]" : "bg-[#f6f6f9]"}  hover:bg-[#f1f0ff] active:bg-[#e0dfff] focus:outline focus:outline-2 focus:outline-blue-500 rounded-md w-8 h-8 flex justify-center items-center`}
           >
             <Stroke />
           </button>
@@ -151,7 +155,7 @@ export default function SideTools({ drawController, controllerReady }: { drawCon
             onClick={() =>
               drawController.current?.setProps({ ...prop, lineWidth: 2.5 })
             }
-            className={`${prop.lineWidth === 2.5 ? "bg-[#E0DFFF]" : ""} bg-[#f6f6f9] hover:bg-[#f1f0ff] focus:outline focus:outline-2 focus:outline-blue-500 active:bg-[#e0dfff] rounded-md w-8 h-8 flex justify-center items-center`}
+            className={`${prop.lineWidth == 2.5 ? "bg-[#e0dfff]" : "bg-[#f6f6f9]"}  hover:bg-[#f1f0ff] focus:outline focus:outline-2 focus:outline-blue-500 active:bg-[#e0dfff] rounded-md w-8 h-8 flex justify-center items-center`}
           >
             <Stroke strokeWidth="2.5" />
           </button>
@@ -159,7 +163,7 @@ export default function SideTools({ drawController, controllerReady }: { drawCon
             onClick={() =>
               drawController.current?.setProps({ ...prop, lineWidth: 3.75 })
             }
-            className={`${prop.lineWidth === 3.75 ? "bg-[#E0DFFF]" : ""} bg-[#f6f6f9] hover:bg-[#f1f0ff] focus:outline focus:outline-2 focus:outline-blue-500 active:bg-[#e0dfff] rounded-md w-8 h-8 flex justify-center items-center`}
+            className={`${prop.lineWidth == 3.75 ? "bg-[#e0dfff]" : "bg-[#f6f6f9]"}  hover:bg-[#f1f0ff] focus:outline focus:outline-2 focus:outline-blue-500 active:bg-[#e0dfff] rounded-md w-8 h-8 flex justify-center items-center`}
           >
             <Stroke strokeWidth="3.75" />
           </button>
