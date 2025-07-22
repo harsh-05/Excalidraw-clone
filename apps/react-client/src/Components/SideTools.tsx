@@ -7,10 +7,6 @@ export default function SideTools({ drawController, controllerReady }: { drawCon
   const [prop, setProp] = useState<props>(DEFAULT_PROPS);
 
   useEffect(() => {
-    console.log(prop);
-  },[prop])
-
-  useEffect(() => {
     
     if (drawController.current) {
       drawController.current.setCallbackProp(setProp);
