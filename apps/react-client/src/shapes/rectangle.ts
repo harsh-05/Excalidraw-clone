@@ -23,6 +23,7 @@ class Rectangle extends Shape {
         context.fillStyle = this.prop.fillColor;
         context.strokeStyle = this.prop.strokeColor;
         context.lineWidth = this.prop.lineWidth;
+        context.globalAlpha = this.prop.opacity;
          
         if (this.prop.fillColor !== "transparent") {
             context.fill(this.path2d);

@@ -3,7 +3,7 @@ import { DEFAULT_PROPS, props } from "../types/types";
 import { DrawController } from "../controllers/drawcontroller";
 
 export default function SideTools({ drawController, controllerReady }: { drawController: React.RefObject<DrawController | null>, controllerReady: boolean}) {
-  const [inputVal, setInputVal] = useState(100);
+  
   const [prop, setProp] = useState<props>(DEFAULT_PROPS);
 
   useEffect(() => {
@@ -367,19 +367,26 @@ export default function SideTools({ drawController, controllerReady }: { drawCon
         </h3>
         <div className="relative">
           <input
-            onChange={(e) => setInputVal(+e.target.value)}
+            onChange={(e) => {
+              const val = Number(e.target.value);
+              const opac = val !== 0 ? val / 100 : 0;
+              const newProp = { ...prop, opacity: opac };
+              drawController.current?.setProps(newProp);
+            }}
             type="range"
             min={"0"}
             max={"100"}
             step={"10"}
-            value={inputVal}
+            value={prop.opacity * 100}
             className=" slider "
             style={
-              { "--slider-progress": `${inputVal}%` } as React.CSSProperties
+              {
+                "--slider-progress": `${prop.opacity * 100}%`,
+              } as React.CSSProperties
             }
           />
           <div className="text-[0.724rem] font-normal font-sans absolute top-6 right-0">
-            {inputVal}
+            {prop.opacity * 100}
           </div>
           <div className="text-[0.724rem]  font-normal font-sans absolute top-6 left-1">
             0
