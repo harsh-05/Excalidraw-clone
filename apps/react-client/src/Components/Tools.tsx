@@ -3,6 +3,7 @@ import { DrawController } from "../controllers/drawcontroller";
 import { SelectTools } from "../types/types";
 import { TfiLayoutLineSolid } from "react-icons/tfi";
 import { LuMousePointer } from "react-icons/lu";
+import { LiaHandPaper } from "react-icons/lia";
 
 
 type ToolsProps = {
@@ -65,6 +66,15 @@ export default function Tools({
           }}
         >
           <PiEraser />
+        </button>
+
+        <button
+          className={`${selectedtool === "PanTool" ? "bg-purple-300" : ""} text-xl hover:bg-purple-100 rounded-md p-2`}
+          onClick={() => {
+            handletoolSelect("PanTool", setSelectedTool, drawController);
+          }}
+        >
+          <LiaHandPaper />
         </button>
       </div>
     );

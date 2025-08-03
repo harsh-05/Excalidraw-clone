@@ -79,6 +79,11 @@ export class DrawController {
 
     }
 
+    // Pan Tool
+
+    private isPanning: boolean = false;
+    private panningCoords: { x: number, y: number } = { x: 0, y: 0 };
+
 
     // Creating the Bound mouse events functions, do read about "this" and "bind" online or on google docs...
 
@@ -138,6 +143,15 @@ export class DrawController {
         if (this.selectedTool === null) return;
 
         const { x, y } = this.getPosition(event);
+
+        // Handling the panning Tool
+        if (this.selectedTool === "PanTool") {
+            this.isPanning = true;
+            this.panningCoords = { x, y };
+
+            console.log(x, y);
+            return;
+        }
 
 
         // handling the eraser functionality here while clicked.
@@ -230,7 +244,7 @@ export class DrawController {
             this.selectedShape.y = currentPos.y - this.offsetCoords.offsetY;
             this.selectedShape.buildpath();
             this.draw();
-        } else if (this.isdrawing && this.selectedTool !== "Select" && this.selectedTool !== "Eraser" && this.selectedTool !== null && this.startCoordinates) {
+        } else if (this.isdrawing && this.selectedTool !== "Select" && this.selectedTool !== "Eraser" && this.selectedTool !== null && this.startCoordinates && this.selectedTool !== "PanTool") {
 
             // If we are creating the shape then this
             const width = currentPos.x - this.startCoordinates.startX;
@@ -256,6 +270,15 @@ export class DrawController {
                     return;
                 }
             }
+        } else if (this.selectedTool === "PanTool" && this.isPanning) {
+            const dx = currentPos.x - this.panningCoords.x;
+            const dy = currentPos.y - this.panningCoords.y;
+            console.log(currentPos.x, currentPos.y);
+            console.log(dx, dy);
+            this.ctx.setTransform(1, 0, 0, 1, 0, 0);  
+            this.ctx.translate(dx, dy);
+            this.draw();
+            this.panningCoords = { x: dx, y: dy };
         }
     }
 
@@ -267,7 +290,7 @@ export class DrawController {
             this.draw();
 
         }
-        else if (this.isdrawing && this.startCoordinates && this.selectedTool !== "Select" && this.selectedTool !== "Eraser" && this.selectedTool !== null) {
+        else if (this.isdrawing && this.startCoordinates && this.selectedTool !== "Select" && this.selectedTool !== "Eraser" && this.selectedTool !== null && this.selectedTool !== "PanTool") {
            
             const currentPos = this.getPosition(event);
             const width = currentPos.x - this.startCoordinates.startX;
@@ -295,6 +318,8 @@ export class DrawController {
             this.resizeHandleType = null;
         } else if (this.isErasing) {
             this.isErasing = false;
+        } else if (this.isPanning) {
+            this.isPanning = false;
          }
         else {
             this.isdrawing = false;
