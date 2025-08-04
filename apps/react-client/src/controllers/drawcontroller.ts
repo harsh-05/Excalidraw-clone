@@ -79,10 +79,12 @@ export class DrawController {
 
     }
 
-    // Pan Tool
+    // Pan Tool, adfdf
 
     private isPanning: boolean = false;
-    private panningCoords: { x: number, y: number } = { x: 0, y: 0 };
+    private panCoordsLast: { x: number, y: number } = { x: 0, y: 0 };
+    private viewOffsetX: number = 0;
+    private viewOffsetY: number = 0;
 
 
     // Creating the Bound mouse events functions, do read about "this" and "bind" online or on google docs...
@@ -147,7 +149,7 @@ export class DrawController {
         // Handling the panning Tool
         if (this.selectedTool === "PanTool") {
             this.isPanning = true;
-            this.panningCoords = { x, y };
+            this.panCoordsLast = { x, y };
 
             console.log(x, y);
             return;
@@ -271,14 +273,19 @@ export class DrawController {
                 }
             }
         } else if (this.selectedTool === "PanTool" && this.isPanning) {
-            const dx = currentPos.x - this.panningCoords.x;
-            const dy = currentPos.y - this.panningCoords.y;
-            console.log(currentPos.x, currentPos.y);
-            console.log(dx, dy);
-            this.ctx.setTransform(1, 0, 0, 1, 0, 0);  
-            this.ctx.translate(dx, dy);
+            
+            const dx = currentPos.x - this.panCoordsLast.x;
+            const dy = currentPos.y - this.panCoordsLast.y;
+
+            this.viewOffsetX += dx;
+            this.viewOffsetY += dy;
+
+            
+            this.panCoordsLast.x = currentPos.x;
+            this.panCoordsLast.y = currentPos.y;
+
+            
             this.draw();
-            this.panningCoords = { x: dx, y: dy };
         }
     }
 
@@ -333,7 +340,13 @@ export class DrawController {
     private draw(): void {
         if (!this.canvas || !this.ctx) return;
 
+
+        // Reset transform and clear
+        this.ctx.setTransform(1, 0, 0, 1, 0, 0);
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+        // Apply accumulated translation
+        this.ctx.translate(this.viewOffsetX, this.viewOffsetY);
 
         this.shapes.map((shape) => (
             shape.draw(this.ctx)
