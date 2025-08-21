@@ -131,8 +131,16 @@ export class DrawController {
         window.removeEventListener("mouseup", this.boundHandleMouseUp);
     }
 
-
+// Making this function to account for the panning and later scaling etc...
     private getPosition(e: MouseEvent) {
+        const rect = this.canvas.getBoundingClientRect(); // Refer Google Docs for better understanding...
+        const x = e.clientX - rect.x;
+        const y = e.clientY - rect.y;
+        // Later we can change this to account for the scaling and other functionalities...
+        return { x: x - this.viewOffsetX, y: y - this.viewOffsetY };
+    }
+
+    private getRawPosition(e: MouseEvent) {
         const rect = this.canvas.getBoundingClientRect(); // Refer Google Docs for better understanding...
         const x = e.clientX - rect.x;
         const y = e.clientY - rect.y;
@@ -149,9 +157,7 @@ export class DrawController {
         // Handling the panning Tool
         if (this.selectedTool === "PanTool") {
             this.isPanning = true;
-            this.panCoordsLast = { x, y };
-
-            console.log(x, y);
+            this.panCoordsLast = this.getRawPosition(event);
             return;
         }
 
@@ -159,6 +165,8 @@ export class DrawController {
         // handling the eraser functionality here while clicked.
         if (this.selectedTool === "Eraser") {
             this.isErasing = true;
+
+            const { x, y } = this.getRawPosition(event);
            
             for (let i = this.shapes.length - 1; i >= 0; i--) {
               
@@ -263,6 +271,7 @@ export class DrawController {
             this.selectedShape.resizeShape(currentPos.x, currentPos.y, this.resizeHandleType, this.buffer, this.resizeShapeCoordinates);
             this.draw();
         } else if (this.selectedTool === "Eraser" && this.isErasing) {
+            const currentPos = this.getRawPosition(event);
             for (let i = this.shapes.length - 1; i >= 0; i--) {
                
                 if (this.shapes[i].hitDetectionEraser(currentPos.x, currentPos.y, this.ctx)) {
@@ -273,6 +282,8 @@ export class DrawController {
                 }
             }
         } else if (this.selectedTool === "PanTool" && this.isPanning) {
+
+            let currentPos = this.getRawPosition(event);
             
             const dx = currentPos.x - this.panCoordsLast.x;
             const dy = currentPos.y - this.panCoordsLast.y;
